@@ -675,3 +675,312 @@ class Solution{
 
 
 
+
+
+
+
+### :lock: ​ Q. 행렬의 덧셈
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12950
+
+
+
+## 행렬의 덧셈
+
+
+
+###### 문제 설명
+
+행렬의 덧셈은 행과 열의 크기가 같은 두 행렬의 같은 행, 같은 열의 값을 서로 더한 결과가 됩니다. 2개의 행렬 arr1과 arr2를 입력받아, 행렬 덧셈의 결과를 반환하는 함수, solution을 완성해주세요.
+
+
+
+##### 제한 조건
+
+- 행렬 arr1, arr2의 행과 열의 길이는 500을 넘지 않습니다.
+
+
+
+##### 입출력 예
+
+| arr1          | arr2          | return        |
+| ------------- | ------------- | ------------- |
+| [[1,2],[2,3]] | [[3,4],[5,6]] | [[4,6],[7,9]] |
+| [[1],[2]]     | [[3],[4]]     | [[4],[6]]     |
+
+
+
+
+
+```java
+import java.util.Arrays;
+
+class Solution {
+  public int[][] solution(int[][] arr1, int[][] arr2) {
+      int[][] answer = new int[arr1.length][];
+      
+      for (int i = 0; i < arr1.length; i++) {
+		    answer = arr1.clone();
+            for(int j = 0; j < arr1[i].length; j++){
+            answer[i][j] += arr2[i][j];
+          }
+		}
+      return answer;
+  }
+}
+```
+
+
+
+
+
+행과 열이 같은 두 개의 행렬의 덧셈 문제입니다.
+
+
+
+행과 열이 같기 때문에 첫 번째 행렬(arr1) 에 두 번째 행렬(arr2)을 바로 더해주었습니다.
+
+
+
+2중 for문을 이용하였습니다.
+
+
+
+
+
+
+
+
+
+###   :lock:  Q. 핸드폰 번호 가리기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12948
+
+
+
+## 핸드폰 번호 가리기
+
+
+
+###### 문제 설명
+
+프로그래머스 모바일은 개인정보 보호를 위해 고지서를 보낼 때 고객들의 전화번호의 일부를 가립니다.
+전화번호가 문자열 phone_number로 주어졌을 때, 전화번호의 뒷 4자리를 제외한 나머지 숫자를 전부 `*`으로 가린 문자열을 리턴하는 함수, solution을 완성해주세요.
+
+
+
+##### 제한 조건
+
+- s는 길이 4 이상, 20이하인 문자열입니다.
+
+
+
+##### 입출력 예
+
+| phone_number | return      |
+| ------------ | ----------- |
+| 01033334444  | *******4444 |
+| 027778888    | *****8888   |
+
+
+
+
+
+```java
+class Solution {
+  public String solution(String phone_number) {
+      String answer = "";  
+      StringBuilder sb = new StringBuilder();
+      int length = phone_number.length();
+      
+		for (int i = 0; i < length - 4; i++) {
+			sb.append('*');
+		}
+		for (int i = length - 4; i < phone_number.length(); i++) {
+			sb.append(phone_number.charAt(i));
+		}
+      
+        answer = sb.toString();
+      
+      return answer;
+  }
+}
+```
+
+
+
+
+
+phone_number의 길이를 알아내기 위해 int형 변수 length에 길이를 저장해두었습니다.
+
+
+
+빠른 문자열 처리를 위해 StringBuilder를 사용하였습니다.
+
+
+
+for문으로 0 ~ (length - 4)번째 까지는 '*'을 sb에 append 해주고
+
+
+
+이후 마지막 4자리에는 실제 phone_number의 적혀 있는 숫자를 적어주었습니다.
+
+
+
+
+
+
+
+
+
+###  :lock:  Q. 하샤드 수
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12947
+
+
+
+## 하샤드 수
+
+
+
+
+
+###### 문제 설명
+
+양의 정수 x가 하샤드 수이려면 x의 자릿수의 합으로 x가 나누어져야 합니다. 예를 들어 18의 자릿수 합은 1+8=9이고, 18은 9로 나누어 떨어지므로 18은 하샤드 수입니다. 자연수 x를 입력받아 x가 하샤드 수인지 아닌지 검사하는 함수, solution을 완성해주세요.
+
+
+
+##### 제한 조건
+
+- `x`는 1 이상, 10000 이하인 정수입니다.
+
+
+
+##### 입출력 예
+
+| arr  | return |
+| ---- | :----: |
+| 10   |  true  |
+| 12   |  true  |
+| 11   | false  |
+| 13   | false  |
+
+
+
+##### 입출력 예 설명
+
+
+
+**입출력 예 #1**
+10의 모든 자릿수의 합은 1입니다. 10은 1로 나누어 떨어지므로 10은 하샤드 수입니다.
+
+**입출력 예 #2**
+12의 모든 자릿수의 합은 3입니다. 12는 3으로 나누어 떨어지므로 12는 하샤드 수입니다.
+
+**입출력 예 #3**
+11의 모든 자릿수의 합은 2입니다. 11은 2로 나누어 떨어지지 않으므로 11는 하샤드 수가 아닙니다.
+
+**입출력 예 #4**
+13의 모든 자릿수의 합은 4입니다. 13은 4로 나누어 떨어지지 않으므로 13은 하샤드 수가 아닙니다.
+
+
+
+
+
+```java
+import java.io.IOException;
+class Solution {
+  public boolean solution (int x) throws IOException {
+		int sum = 0;
+		int a = x;
+      
+		while (a >= 1) {
+			sum += a % 10;
+			a /= 10;
+		}
+
+		if (x % sum == 0) {
+			return true;
+		} else
+			return false;
+  }
+}
+```
+
+
+
+
+
+첫 번째 예제의 경우 10의 자릿수의 합은 ( 1 + 0 ) = 1, 
+
+​		10 % 1 == 0 이므로 하샤드 수입니다. ( **return true** )
+
+
+
+두 번째 예제의 경우 12의 자릿수의 합은 ( 1 + 2 ) = 3, 
+
+​		12 % 3 == 0 이므로 하샤드 수입니다. ( **return true** )
+
+
+
+세 번째 예제의 경우 11의 자릿수의 합은 ( 1 + 1 ) = 2, 
+
+​		11 % 2 == 1 이므로 하샤드 수가 아닙니다. ( **return false** )
+
+
+
+네 번째 예제의 경우 13의 자릿수의 합은 ( 1 + 3 ) = 4, 
+
+​		13 % 4 == 1 이므로 하샤드 수가 아닙니다. ( **return false** )
+
+
+
+
+
+먼저 각 자릿수의 합을 구해주기 위하여 while문을 이용하였습니다.
+
+
+
+초기 숫자 x를 저장하고 있는 a변수를 이용하였습니다.
+
+
+
+자릿수의 합을 저장해둘 변수 sum을 만들어주었습니다.
+
+
+
+
+
+while문 안에서, sum에 현재 a의 일의 자리를 더해주고 ( sum += a % 10 )
+
+
+
+​	a 를 10으로 나누어주었습니다.
+
+
+
+
+
+while문을 빠져나오고 나서 x(초기 입력으로 주어진 수)를 sum으로 나누어
+
+
+
+​	나머지가 0이면 true를 반환하고 아닐 경우 false를 반환하도록 해주었습니다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
