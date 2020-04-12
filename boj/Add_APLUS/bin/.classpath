@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry excluding="boj/Add_APLUS/src/|Line/src/" kind="src" path=""/>
-	<classpathentry kind="src" path="boj/Add_APLUS/src"/>
-	<classpathentry kind="src" path="Line/src"/>
-	<classpathentry kind="output" path="boj/Add_APLUS/bin"/>
-</classpath>
