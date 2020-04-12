@@ -1237,5 +1237,159 @@ https://javacoding.tistory.com/56?category=352749
 
 
 
+###  :lock:  Q. 짝수와 홀수
 
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12937
+
+
+
+## 짝수와 홀수
+
+
+
+###### 문제 설명
+
+정수 num이 짝수일 경우 Even을 반환하고 홀수인 경우 Odd를 반환하는 함수, solution을 완성해주세요.
+
+
+
+##### 제한 조건
+
+- num은 int 범위의 정수입니다.
+- 0은 짝수입니다.
+
+
+
+##### 입출력 예
+
+
+
+| num  | return |
+| ---- | :----: |
+| 3    | "Odd"  |
+| 4    | "Even" |
+
+
+
+```java
+class Solution {
+  public String solution(int num) {
+
+		if(num %2 == 0) {
+			return ("Even");
+		}else
+			return ("Odd");
+  }
+}
+```
+
+
+
+% 연산자를 이용하여 입력으로 주어지는 num을 2로 나누어
+
+
+
+나머지가 0이면 짝수를 반환하고 나머지가 홀수 (else)이면 홀수를 반환해주었습니다.
+
+
+
+
+
+
+
+###  :lock:  Q. 제일 작은 수 제거하기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12935
+
+
+
+## 제일 작은 수 제거하기
+
+
+
+###### 문제 설명
+
+정수를 저장한 배열, arr 에서 가장 작은 수를 제거한 배열을 리턴하는 함수, solution을 완성해주세요. 단, 리턴하려는 배열이 빈 배열인 경우엔 배열에 -1을 채워 리턴하세요. 예를들어 arr이 [4,3,2,1]인 경우는 [4,3,2]를 리턴 하고, [10]면 [-1]을 리턴 합니다.
+
+
+
+##### 제한 조건
+
+- arr은 길이 1 이상인 배열입니다.
+- 인덱스 i, j에 대해 i ≠ j이면 arr[i] ≠ arr[j] 입니다.
+
+
+
+##### 입출력 예
+
+| arr       | return  |
+| --------- | ------- |
+| [4,3,2,1] | [4,3,2] |
+| [10]      | [-1]    |
+
+
+
+
+
+```java
+import java.util.ArrayList;
+class Solution {
+  public int[] solution(int[] arr) {
+		int length = arr.length;
+        int[] arr2 = new int[length-1];
+		if(length == 1) {
+			arr[0] = -1;
+            return arr;
+		} else {
+			int min = Integer.MAX_VALUE;
+			int min_idx = 0;
+			for (int i = 0; i < length; i++) {
+				if(min > arr[i]) {
+					min = arr[i];
+					min_idx = i;
+				}
+			}
+			
+			int index = 0;
+			for (int i = 0; i < length; i++) {
+				if(i == min_idx)
+					continue;
+				else {
+					arr2[index] = arr[i];
+					index++;
+				}
+			}
+		}
+      return arr2;
+  }
+}
+```
+
+
+
+우선 정답으로 출력되는 배열 arr2를 만들어주었습니다.
+
+
+
+만약 입력으로 주어지는 배열의 길이가 1 이라면 arr2[0]에 -1을 담아 바로 리턴해주었고
+
+
+
+길이가 2이상일 경우에는 최소값(min)과 그때의 인덱스(min_index)를 찾아주었습니다.
+
+
+
+그 이후에 arr2배열에 min_index를 제외한 나머지 정수들을 담아주었습니다.
+
+
+
+이때 단지 최소값으로 비교하면 최소값의 원소가 중복될 경우 
+
+
+
+배열의 정수값이 누락될 수 있기 때문에 이를 방지하기 위해 index변수를 사용하여
+
+
+
+최소값을 한 번만 제외하고 모두 옮겨주도록 하였습니다.
 
