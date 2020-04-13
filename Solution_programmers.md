@@ -1473,3 +1473,74 @@ Math.sqrt(n) % 1  == 0  연산을 이용하여 판별해주었습니다.
 
 
 
+
+
+
+
+###  :lock:  Q. 정수 내림차순으로 배치하기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12933
+
+
+
+## 정수 내림차순으로 배치하기
+
+
+
+###### 문제 설명
+
+함수 solution은 정수 n을 매개변수로 입력받습니다. n의 각 자릿수를 큰것부터 작은 순으로 정렬한 새로운 정수를 리턴해주세요. 예를들어 n이 118372면 873211을 리턴하면 됩니다.
+
+
+
+##### 제한 조건
+
+- `n`은 1이상 8000000000 이하인 자연수입니다.
+
+
+
+##### 입출력 예
+
+| n      | return |
+| ------ | :----: |
+| 118372 | 873211 |
+
+
+
+```java
+import java.util.Arrays;
+
+class Solution {
+  public long solution(long n) {
+		String input = ""+ n;
+		int size = input.length();
+		int[] nums = new int[size];
+		for (int i = 0; i < size; i++) {
+			nums[i] = input.charAt(i)- '0';
+		}
+		Arrays.sort(nums);
+		StringBuilder sb = new StringBuilder();
+		for (int i = size - 1; i >= 0; i--) {
+			sb.append(nums[i]);
+		}
+		long answer = Long.parseLong(sb.toString());
+		return answer;
+  }
+}
+```
+
+
+
+입력으로 주어지는 n을 String input에 담은 뒤 한 자리씩 nums 배열에 저장하였습니다.
+
+
+
+nums배열을 Arrays.sort() 함수를 이용하여 정렬해준 뒤
+
+
+
+StringBuilder를 사용하여 내림차순으로 덧붙여주었습니다.
+
+
+
+마지막으로 Long.parseLong을 이용하여 문자열을 long 변수 answer에 담아 출력해주었습니다.
