@@ -1544,3 +1544,63 @@ StringBuilder를 사용하여 내림차순으로 덧붙여주었습니다.
 
 
 마지막으로 Long.parseLong을 이용하여 문자열을 long 변수 answer에 담아 출력해주었습니다.
+
+
+
+
+
+
+
+###  :lock:  Q. 자연수 뒤집어 배열로 만들기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12932
+
+
+
+## 자연수 뒤집어 배열로 만들기
+
+
+
+###### 문제 설명
+
+자연수 n을 뒤집어 각 자리 숫자를 원소로 가지는 배열 형태로 리턴해주세요. 예를들어 n이 12345이면 [5,4,3,2,1]을 리턴합니다.
+
+
+
+##### 제한 조건
+
+- n은 10,000,000,000이하인 자연수입니다.
+
+
+
+##### 입출력 예
+
+| n     | return      |
+| ----- | ----------- |
+| 12345 | [5,4,3,2,1] |
+
+```java
+class Solution {
+  public int[] solution(long n) {
+		String input = ""+n;
+		int size = input.length();
+		int[] answer = new int[size];
+		for (int i = size - 1; i >= 0; i--) {
+			answer[i] = input.charAt(size - i - 1) - '0';
+		}
+		return answer;
+  }
+}
+```
+
+
+
+입력으로 주어지는 n을 String input에 담은 뒤 역순으로 한 자리씩 answer 배열에 저장하였습니다.
+
+
+
+for 문을 사용하여 size - 1번째부터 0까지 역순으로 한 자씩 담아준 뒤
+
+
+
+answer 배열을 return 해주었습니다.
