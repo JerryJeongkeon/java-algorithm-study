@@ -1297,3 +1297,179 @@ class Solution {
 
 
 
+###  :lock:  Q. 제일 작은 수 제거하기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12935
+
+
+
+## 제일 작은 수 제거하기
+
+
+
+###### 문제 설명
+
+정수를 저장한 배열, arr 에서 가장 작은 수를 제거한 배열을 리턴하는 함수, solution을 완성해주세요. 단, 리턴하려는 배열이 빈 배열인 경우엔 배열에 -1을 채워 리턴하세요. 예를들어 arr이 [4,3,2,1]인 경우는 [4,3,2]를 리턴 하고, [10]면 [-1]을 리턴 합니다.
+
+
+
+##### 제한 조건
+
+- arr은 길이 1 이상인 배열입니다.
+- 인덱스 i, j에 대해 i ≠ j이면 arr[i] ≠ arr[j] 입니다.
+
+
+
+##### 입출력 예
+
+| arr       | return  |
+| --------- | ------- |
+| [4,3,2,1] | [4,3,2] |
+| [10]      | [-1]    |
+
+
+
+
+
+```java
+import java.util.ArrayList;
+class Solution {
+  public int[] solution(int[] arr) {
+		int length = arr.length;
+        int[] arr2 = new int[length-1];
+		if(length == 1) {
+			arr[0] = -1;
+            return arr;
+		} else {
+			int min = Integer.MAX_VALUE;
+			int min_idx = 0;
+			for (int i = 0; i < length; i++) {
+				if(min > arr[i]) {
+					min = arr[i];
+					min_idx = i;
+				}
+			}
+			
+			int index = 0;
+			for (int i = 0; i < length; i++) {
+				if(i == min_idx)
+					continue;
+				else {
+					arr2[index] = arr[i];
+					index++;
+				}
+			}
+		}
+      return arr2;
+  }
+}
+```
+
+
+
+우선 정답으로 출력되는 배열 arr2를 만들어주었습니다.
+
+
+
+만약 입력으로 주어지는 배열의 길이가 1 이라면 arr2[0]에 -1을 담아 바로 리턴해주었고
+
+
+
+길이가 2이상일 경우에는 최소값(min)과 그때의 인덱스(min_index)를 찾아주었습니다.
+
+
+
+그 이후에 arr2배열에 min_index를 제외한 나머지 정수들을 담아주었습니다.
+
+
+
+이때 단지 최소값으로 비교하면 최소값의 원소가 중복될 경우 
+
+
+
+배열의 정수값이 누락될 수 있기 때문에 이를 방지하기 위해 index변수를 사용하여
+
+
+
+최소값을 한 번만 제외하고 모두 옮겨주도록 하였습니다.
+
+
+
+
+
+
+
+###  :lock:  Q. 정수 제곱근 판별
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12934
+
+
+
+## 정수 제곱근 판별
+
+
+
+###### 문제 설명
+
+임의의 양의 정수 n에 대해, n이 어떤 양의 정수 x의 제곱인지 아닌지 판단하려 합니다.
+n이 양의 정수 x의 제곱이라면 x+1의 제곱을 리턴하고, n이 양의 정수 x의 제곱이 아니라면 -1을 리턴하는 함수를 완성하세요.
+
+
+
+##### 제한 사항
+
+- n은 1이상, 50000000000000 이하인 양의 정수입니다.
+
+
+
+##### 입출력 예
+
+| n    | return |
+| ---- | :----: |
+| 121  |  144   |
+| 3    |   -1   |
+
+
+
+###### 입출력 예 설명
+
+
+
+**입출력 예#1**
+121은 양의 정수 11의 제곱이므로, (11+1)를 제곱한 144를 리턴합니다.
+
+
+
+**입출력 예#2**
+3은 양의 정수의 제곱이 아니므로, -1을 리턴합니다.
+
+
+
+```java
+class Solution {
+  public long solution(long n) {
+      long answer = 0;
+      	if(Math.sqrt(n) % 1 == 0) {
+			answer = (long)((Math.sqrt(n)+1) * (Math.sqrt(n)+1));
+		} else {
+            answer = -1;
+		}
+      return answer;
+  }
+}
+```
+
+
+
+JAVA에서 제공하는 Math.sqrt() 함수를 사용하였습니다.
+
+
+
+제곱근이 정수인지 아닌지 
+
+
+
+Math.sqrt(n) % 1  == 0  연산을 이용하여 판별해주었습니다.
+
+
+
