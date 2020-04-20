@@ -386,3 +386,779 @@ public class Main_15651_N과M3 {
 
 
 
+
+
+
+
+### :lock: ​Q. N과 M4
+
+출처 :  https://www.acmicpc.net/problem/15652
+
+
+
+# N과 M (4)
+
+| 시간 제한 | 메모리 제한 | 제출 | 정답 | 맞은 사람 | 정답 비율 |
+| :-------- | :---------- | :--- | :--- | :-------- | :-------- |
+| 1 초      | 512 MB      | 6845 | 5669 | 4711      | 83.101%   |
+
+
+
+## 문제
+
+자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
+
+
+
+- 1부터 N까지 자연수 중에서 M개를 고른 수열
+
+- 같은 수를 여러 번 골라도 된다.
+
+- 고른 수열은 비내림차순이어야 한다.
+
+  - 길이가 K인 수열 A가 A1 ≤ A2 ≤ ... ≤ AK-1 ≤ AK를 만족하면, 비내림차순이라고 한다.
+
+  
+
+## 입력
+
+첫째 줄에 자연수 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
+
+
+
+## 출력
+
+한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다. 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
+
+수열은 사전 순으로 증가하는 순서로 출력해야 한다.
+
+
+
+## 예제 입력 1 복사
+
+```
+3 1
+```
+
+
+
+## 예제 출력 1 복사
+
+```
+1
+2
+3
+```
+
+
+
+## 예제 입력 2 복사
+
+```
+4 2
+```
+
+
+
+## 예제 출력 2 복사
+
+```
+1 1
+1 2
+1 3
+1 4
+2 2
+2 3
+2 4
+3 3
+3 4
+4 4
+```
+
+
+
+## 예제 입력 3 복사
+
+```
+3 3
+```
+
+
+
+## 예제 출력 3 복사
+
+```
+1 1 1
+1 1 2
+1 1 3
+1 2 2
+1 2 3
+1 3 3
+2 2 2
+2 2 3
+2 3 3
+3 3 3
+```
+
+
+
+
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main_15652_N과M4 {
+	static int N, M;
+	static StringTokenizer st;
+	static StringBuilder sb;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		st = new StringTokenizer(br.readLine().trim(), " ");
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		sb = new StringBuilder();
+
+		solve(1, 0, "");
+
+		System.out.println(sb.toString());
+	}
+
+	static void solve(int idx, int cnt, String str) {
+		if (cnt == M) {
+			sb.append(str.trim() + "\n");
+			return;
+		}
+
+		for (int i = idx; i <= N; i++) {
+			solve(i, cnt + 1, str + i + " ");
+		}
+	}
+}
+
+```
+
+
+
+중복이 허용되는 조합의 경우의 수를 찾는 문제입니다.
+
+
+
+오름차순으로 출력해주어야 하기 때문에 현재의 값 (idx) 부터 N 까지 for문을 사용하였습니다.
+
+
+
+문제의 조건에서 주어진 비내림차순을 성립시키기 위해 i값을 idx로 넣어준 뒤 진행시켜
+
+
+
+비내림차순의 수열을 찾아낼 수 있었습니다.
+
+
+
+
+
+
+
+### :lock: ​Q. N과 M5
+
+출처 :  https://www.acmicpc.net/problem/15654
+
+
+
+# N과 M (5)
+
+| 시간 제한 | 메모리 제한 | 제출 | 정답 | 맞은 사람 | 정답 비율 |
+| :-------- | :---------- | :--- | :--- | :-------- | :-------- |
+| 1 초      | 512 MB      | 4916 | 3688 | 2984      | 75.107%   |
+
+
+
+## 문제
+
+N개의 자연수와 자연수 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오. N개의 자연수는 모두 다른 수이다.
+
+- N개의 자연수 중에서 M개를 고른 수열
+
+
+
+## 입력
+
+첫째 줄에 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
+
+둘째 줄에 N개의 수가 주어진다. 입력으로 주어지는 수는 10,000보다 작거나 같은 자연수이다.
+
+
+
+## 출력
+
+한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다. 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
+
+수열은 사전 순으로 증가하는 순서로 출력해야 한다.
+
+
+
+## 예제 입력 1 복사
+
+```
+3 1
+4 5 2
+```
+
+
+
+## 예제 출력 1 복사
+
+```
+2
+4
+5
+```
+
+
+
+## 예제 입력 2 복사
+
+```
+4 2
+9 8 7 1
+```
+
+
+
+## 예제 출력 2 복사
+
+```
+1 7
+1 8
+1 9
+7 1
+7 8
+7 9
+8 1
+8 7
+8 9
+9 1
+9 7
+9 8
+```
+
+
+
+## 예제 입력 3 복사
+
+```
+4 4
+1231 1232 1233 1234
+```
+
+
+
+## 예제 출력 3 복사
+
+```
+1231 1232 1233 1234
+1231 1232 1234 1233
+1231 1233 1232 1234
+1231 1233 1234 1232
+1231 1234 1232 1233
+1231 1234 1233 1232
+1232 1231 1233 1234
+1232 1231 1234 1233
+1232 1233 1231 1234
+1232 1233 1234 1231
+1232 1234 1231 1233
+1232 1234 1233 1231
+1233 1231 1232 1234
+1233 1231 1234 1232
+1233 1232 1231 1234
+1233 1232 1234 1231
+1233 1234 1231 1232
+1233 1234 1232 1231
+1234 1231 1232 1233
+1234 1231 1233 1232
+1234 1232 1231 1233
+1234 1232 1233 1231
+1234 1233 1231 1232
+1234 1233 1232 1231
+```
+
+
+
+
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main_15654_N과M5 {
+	static StringTokenizer st;
+	static StringBuilder sb;
+	static int N, M;
+	static int[] arr;
+	static boolean[] used;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
+		st = new StringTokenizer(br.readLine().trim());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		arr = new int[N + 1];
+		used = new boolean[N + 1];
+
+		st = new StringTokenizer(br.readLine().trim(), " ");
+		for (int i = 1; i <= N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+
+		Arrays.sort(arr);
+		solve(1, 0, "");
+
+		System.out.println(sb.toString());
+	}
+
+	static void solve(int idx, int cnt, String str) {
+		if (cnt == M) {
+			sb.append(str.trim() + "\n");
+			return;
+		} else {
+			if (idx > N)
+				return;
+
+			for (int i = 1; i <= N; i++) {
+				if (!used[i]) {
+					used[i] = true;
+					solve(idx + 1, cnt + 1, str + arr[i] + " ");
+					used[i] = false;
+				}
+			}
+		}
+	}
+}
+```
+
+
+
+이 문제에서부터는 입력으로 주어지는 정수들을 저장할 배열 arr를 선언해주었습니다.
+
+
+
+수열을 찾아주기 전에 Arrays.sort를 이용하여 정렬한 뒤 탐색하였습니다.
+
+
+
+중복된 요소가 사용된 조합은 불가능하므로 used배열을 이용하여 체크해주었습니다.
+
+
+
+for문을 1부터 N까지 반복하여 가능한 모든 수열을 찾아주었습니다.
+
+
+
+
+
+
+
+### :lock: ​Q. N과 M6
+
+출처 :  https://www.acmicpc.net/problem/15655
+
+
+
+# N과 M (6)
+
+| 시간 제한 | 메모리 제한 | 제출 | 정답 | 맞은 사람 | 정답 비율 |
+| :-------- | :---------- | :--- | :--- | :-------- | :-------- |
+| 1 초      | 512 MB      | 3814 | 3287 | 2728      | 86.658%   |
+
+
+
+## 문제
+
+N개의 자연수와 자연수 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오. N개의 자연수는 모두 다른 수이다.
+
+
+
+- N개의 자연수 중에서 M개를 고른 수열
+- 고른 수열은 오름차순이어야 한다.
+
+
+
+## 입력
+
+첫째 줄에 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
+
+둘째 줄에 N개의 수가 주어진다. 입력으로 주어지는 수는 10,000보다 작거나 같은 자연수이다.
+
+
+
+## 출력
+
+한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다. 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
+
+수열은 사전 순으로 증가하는 순서로 출력해야 한다.
+
+
+
+## 예제 입력 1 복사
+
+```
+3 1
+4 5 2
+```
+
+
+
+## 예제 출력 1 복사
+
+```
+2
+4
+5
+```
+
+
+
+## 예제 입력 2 복사
+
+```
+4 2
+9 8 7 1
+```
+
+
+
+## 예제 출력 2 복사
+
+```
+1 7
+1 8
+1 9
+7 8
+7 9
+8 9
+```
+
+
+
+## 예제 입력 3 복사
+
+```
+4 4
+1231 1232 1233 1234
+```
+
+
+
+## 예제 출력 3 복사
+
+```
+1231 1232 1233 1234
+```
+
+
+
+
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main_15655_N과M6 {
+	static int N, M;
+	static StringTokenizer st;
+	static StringBuilder sb;
+	static int[] arr;
+	static boolean[] used;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
+		st = new StringTokenizer(br.readLine(), " ");
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+
+		arr = new int[N + 1];
+		used = new boolean[N + 1];
+		st = new StringTokenizer(br.readLine(), " ");
+		for (int i = 1; i <= N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+
+		Arrays.sort(arr);
+		solve(1, 0, "");
+
+		System.out.println(sb.toString());
+
+	}
+
+	static void solve(int idx, int cnt, String str) {
+		if (cnt == M) {
+			sb.append(str + "\n");
+			return;
+		} else {
+			if (idx > N)
+				return;
+
+			for (int i = idx; i <= N; i++) {
+				used[i] = true;
+				solve(i + 1, cnt + 1, str + arr[i] + " ");
+				used[i] = false;
+			}
+		}
+	}
+}
+```
+
+
+
+문제의 조건으로 고른 수열은 오름차순이어야 하고
+
+
+
+중복된 조합이 발생하지 않아야 합니다.
+
+
+
+오름차순으로 출력해주기 위해 Arrays.sort 를 사용하여 정렬해준 뒤 탐색하였습니다.
+
+
+
+이후 used배열을 사용하여 중복을 제거해주었고
+
+
+
+다음번 함수를 실행시킬 때 idx의 값으로 i+1을 인자로 넘겨 연속으로 등장하는 중복값을 제거해주었습니다.
+
+
+
+
+
+
+
+### :lock: ​Q. N과 M7
+
+출처 :  https://www.acmicpc.net/problem/15656
+
+
+
+# N과 M (7)
+
+| 시간 제한 | 메모리 제한 | 제출 | 정답 | 맞은 사람 | 정답 비율 |
+| :-------- | :---------- | :--- | :--- | :-------- | :-------- |
+| 1 초      | 512 MB      | 4069 | 3164 | 2584      | 79.410%   |
+
+
+
+## 문제
+
+N개의 자연수와 자연수 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오. N개의 자연수는 모두 다른 수이다.
+
+
+
+- N개의 자연수 중에서 M개를 고른 수열
+- 같은 수를 여러 번 골라도 된다.
+
+
+
+## 입력
+
+첫째 줄에 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 7)
+
+둘째 줄에 N개의 수가 주어진다. 입력으로 주어지는 수는 10,000보다 작거나 같은 자연수이다.
+
+
+
+## 출력
+
+한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다. 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
+
+수열은 사전 순으로 증가하는 순서로 출력해야 한다.
+
+
+
+## 예제 입력 1 복사
+
+```
+3 1
+4 5 2
+```
+
+
+
+## 예제 출력 1 복사
+
+```
+2
+4
+5
+```
+
+
+
+## 예제 입력 2 복사
+
+```
+4 2
+9 8 7 1
+```
+
+
+
+## 예제 출력 2 복사
+
+```
+1 1
+1 7
+1 8
+1 9
+7 1
+7 7
+7 8
+7 9
+8 1
+8 7
+8 8
+8 9
+9 1
+9 7
+9 8
+9 9
+```
+
+
+
+## 예제 입력 3 복사
+
+```
+3 3
+1231 1232 1233
+```
+
+
+
+## 예제 출력 3 복사
+
+```
+1231 1231 1231
+1231 1231 1232
+1231 1231 1233
+1231 1232 1231
+1231 1232 1232
+1231 1232 1233
+1231 1233 1231
+1231 1233 1232
+1231 1233 1233
+1232 1231 1231
+1232 1231 1232
+1232 1231 1233
+1232 1232 1231
+1232 1232 1232
+1232 1232 1233
+1232 1233 1231
+1232 1233 1232
+1232 1233 1233
+1233 1231 1231
+1233 1231 1232
+1233 1231 1233
+1233 1232 1231
+1233 1232 1232
+1233 1232 1233
+1233 1233 1231
+1233 1233 1232
+1233 1233 1233
+```
+
+
+
+
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main_15656_N과M7 {
+	static int N, M;
+	static StringTokenizer st;
+	static StringBuilder sb;
+	static int[] arr;
+	static boolean[] used;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		st = new StringTokenizer(br.readLine(), " ");
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		sb = new StringBuilder();
+		arr = new int[N + 1];
+		used = new boolean[N + 1];
+
+		st = new StringTokenizer(br.readLine(), " ");
+		for (int i = 1; i <= N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+
+		Arrays.sort(arr);
+		solve(0, "");
+
+		System.out.println(sb.toString());
+
+	}
+
+	static void solve(int cnt, String str) {
+		if (cnt == M) {
+			sb.append(str.trim() + "\n");
+			return;
+		} else {
+			for (int i = 1; i <= N; i++) {
+				used[i] = true;
+				solve(cnt + 1, str + arr[i] + " ");
+				used[i] = false;
+			}
+		}
+	}
+}
+
+```
+
+
+
+이 문제에서는 이전 문제와 달리 같은 수가 중복된 경우도 포함해야 합니다.
+
+
+
+따라서 마지막 숫자가 가장 앞에 올 수 있기 때문에 이전 문제에서 사용해주었던
+
+
+
+매개변수 idx를 삭제해주었고 if(idx > N) return; 조건 역시 삭제해주었습니다.
+
+
+
+for문에서 1부터 N까지의 arr[i]를 모두 탐색하기 때문에 중복된 경우까지 모두 찾아주었습니다.
+
+
+
+
+
+
+
+
+
+
+
+
+
