@@ -28,11 +28,6 @@ public class Main_1021_회전하는큐 {
 			list.add(Integer.parseInt(st.nextToken()));
 		}
 		
-		solve(list);
-		
-	}
-	
-	static void solve(ArrayList<Integer> lst) {
 		
 	}
 }
