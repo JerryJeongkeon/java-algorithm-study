@@ -1684,3 +1684,109 @@ public class Solution {
 
 
 
+
+
+
+
+
+
+
+
+
+
+###  :lock:  Q. 이상한 문자 만들기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12930
+
+
+
+## 이상한 문자 만들기
+
+
+
+###### 문제 설명
+
+문자열 s는 한 개 이상의 단어로 구성되어 있습니다. 각 단어는 하나 이상의 공백문자로 구분되어 있습니다. 각 단어의 짝수번째 알파벳은 대문자로, 홀수번째 알파벳은 소문자로 바꾼 문자열을 리턴하는 함수, solution을 완성하세요.
+
+
+
+##### 제한 사항
+
+- 문자열 전체의 짝/홀수 인덱스가 아니라, 단어(공백을 기준)별로 짝/홀수 인덱스를 판단해야합니다.
+- 첫 번째 글자는 0번째 인덱스로 보아 짝수번째 알파벳으로 처리해야 합니다.
+
+
+
+##### 입출력 예
+
+| s               | return          |
+| --------------- | --------------- |
+| try hello world | TrY HeLlO WoRlD |
+
+
+
+##### 입출력 예 설명
+
+try hello world는 세 단어 try, hello, world로 구성되어 있습니다. 각 단어의 짝수번째 문자를 대문자로, 홀수번째 문자를 소문자로 바꾸면 TrY, HeLlO, WoRlD입니다. 따라서 TrY HeLlO WoRlD 를 리턴합니다.
+
+
+
+
+
+```java
+import java.util.StringTokenizer;
+
+class Solution {
+  public String solution(String s) {
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(s, " ");
+
+      while (st.hasMoreTokens()) {
+			String temp = st.nextToken();
+			String Upper = temp.toUpperCase();
+			String Lower = temp.toLowerCase();
+		
+          for (int i = 0; i < temp.length(); i++) {
+				if (i % 2 == 0) {
+					sb.append(Upper.charAt(i));
+				} else {
+					sb.append(Lower.charAt(i));
+				}
+			}
+          if(st.hasMoreTokens())
+			    sb.append(" ");
+		}
+		String answer = sb.toString();
+      return answer;
+  }
+}
+```
+
+
+
+Stringbuilder와 StringTokenizer 그리고 hasMoreTokens를 적극 활용하여 풀이하였습니다.
+
+
+
+먼저 문제에서 주어지는 s를 StringTokenizer를 사용하여 한 단어씩 뽑아주었습니다.
+
+
+
+
+
+이후 st.hasMoreTokens() 메소드를 사용하여 한 단어씩 뽑은 뒤에 temp 변수에 저장해주었습니다.
+
+Upper변수에는 대문자로 변환한 문자열을, Lower 변수에는 소문자로 변환한 문자열을 저장합니다.
+
+for문을 통해 temp의 길이만큼 홀수번째에서는 소문자를 추가하고 짝수에는 대문자를 뽑아 한 자씩
+
+덧붙여주었습니다.
+
+
+
+
+
+마지막으로 만약 다음번에 더 붙일 단어가 존재한다면 공백 문자를 추가하여 풀이하였습니다.
+
+
+
