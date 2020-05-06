@@ -41,8 +41,6 @@ public class Main_14502_연구소 {
 	static void bfs(int i, int j) {
 		q.add(new Pos(i, j));
 		visited = new boolean[N][M];
-		
-		
 	}
 	
 	static void spreadVirus() {
