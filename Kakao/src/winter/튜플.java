@@ -7,11 +7,11 @@ import java.util.Comparator;
 import java.util.StringTokenizer;
 
 /*
- * StringTokenizer를 사용하여 "{}"로 잘라준다
- * , 로만 이루어진 문자열을 제외하고 list에 담아준다.
- * list를 문자열의 길이로 잘라준다.
- * list에 담겨있는 문자열에서 숫자를 꺼내 answerList에 숫자만 담아준다.
- * answerList에 담겨있는 숫자들을 차례대로 int[] answer에 옮겨담는다.
+ * StringTokenizer瑜� �궗�슜�븯�뿬 "{}"濡� �옒�씪以��떎
+ * , 濡쒕쭔 �씠猷⑥뼱吏� 臾몄옄�뿴�쓣 �젣�쇅�븯怨� list�뿉 �떞�븘以��떎.
+ * list瑜� 臾몄옄�뿴�쓽 湲몄씠濡� �옒�씪以��떎.
+ * list�뿉 �떞寃⑥엳�뒗 臾몄옄�뿴�뿉�꽌 �닽�옄瑜� 爰쇰궡 answerList�뿉 �닽�옄留� �떞�븘以��떎.
+ * answerList�뿉 �떞寃⑥엳�뒗 �닽�옄�뱾�쓣 李⑤���濡� int[] answer�뿉 �삷寃⑤떞�뒗�떎.
  * return answer;
  */
 
@@ -24,6 +24,7 @@ public class 튜플 {
 
 		while (st.hasMoreTokens()) {
 			String temp = st.nextToken();
+			System.out.println(temp);
 			if (!temp.equals(","))
 				list.add(temp);
 		}

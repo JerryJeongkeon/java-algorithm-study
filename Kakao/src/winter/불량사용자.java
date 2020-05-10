@@ -12,9 +12,9 @@ public class 불량사용자 {
 			"******", "******"
 	};
 	
-	static Set<String> set = new HashSet<>();
 	static boolean[][] map;
 	static int result, uSize, bSize;
+	static Set<String> set = new HashSet<>();
 	
 	public static void main(String[] args) {
 		result = 0;
