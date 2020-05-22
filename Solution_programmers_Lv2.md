@@ -697,8 +697,6 @@ break문을 사용하여 찾았다면 바로 종료해주었습니다.
 
 <hr/>
 
-
-
 이 문제가 스택으로 분류되어 있어서 의아했었는데 다른분이 풀이하신 것을 보니
 
 공부하는 데에 도움이 될 것 같아 남겨둡니다.
@@ -775,4 +773,290 @@ Stack을 사용한 풀이 방법입니다.
 
 
 while문을 통해 stack에는 가장 높은 현재 송출탑만 남게 되는 것을 알 수 있습니다.
+
+
+
+
+
+
+
+### :lock: ​Q. 스킬트리
+
+출처 :  https://programmers.co.kr/learn/courses/30/lessons/49993
+
+
+
+###### 문제 설명
+
+선행 스킬이란 어떤 스킬을 배우기 전에 먼저 배워야 하는 스킬을 뜻합니다.
+
+예를 들어 선행 스킬 순서가 `스파크 → 라이트닝 볼트 → 썬더`일때, 썬더를 배우려면 먼저 라이트닝 볼트를 배워야 하고, 라이트닝 볼트를 배우려면 먼저 스파크를 배워야 합니다.
+
+위 순서에 없는 다른 스킬(힐링 등)은 순서에 상관없이 배울 수 있습니다. 따라서 `스파크 → 힐링 → 라이트닝 볼트 → 썬더`와 같은 스킬트리는 가능하지만, `썬더 → 스파크`나 `라이트닝 볼트 → 스파크 → 힐링 → 썬더`와 같은 스킬트리는 불가능합니다.
+
+선행 스킬 순서 skill과 유저들이 만든 스킬트리[1](https://programmers.co.kr/learn/courses/30/lessons/49993#fn1)를 담은 배열 skill_trees가 매개변수로 주어질 때, 가능한 스킬트리 개수를 return 하는 solution 함수를 작성해주세요.
+
+
+
+##### 제한 조건
+
+- 스킬은 알파벳 대문자로 표기하며, 모든 문자열은 알파벳 대문자로만 이루어져 있습니다.
+
+- 스킬 순서와 스킬트리는 문자열로 표기합니다.
+
+  - 예를 들어, `C → B → D` 라면 CBD로 표기합니다
+
+- 선행 스킬 순서 skill의 길이는 1 이상 26 이하이며, 스킬은 중복해 주어지지 않습니다.
+
+- skill_trees는 길이 1 이상 20 이하인 배열입니다.
+
+- skill_trees의 원소는 스킬을 나타내는 문자열입니다.
+
+  - skill_trees의 원소는 길이가 2 이상 26 이하인 문자열이며, 스킬이 중복해 주어지지 않습니다.
+
+  
+
+##### 입출력 예
+
+| skill   | skill_trees                         | return |
+| ------- | ----------------------------------- | ------ |
+| `"CBD"` | `["BACDE", "CBADF", "AECB", "BDA"]` | 2      |
+
+
+
+##### 입출력 예 설명
+
+- BACDE: B 스킬을 배우기 전에 C 스킬을 먼저 배워야 합니다. 불가능한 스킬트립니다.
+- CBADF: 가능한 스킬트리입니다.
+- AECB: 가능한 스킬트리입니다.
+- BDA: B 스킬을 배우기 전에 C 스킬을 먼저 배워야 합니다. 불가능한 스킬트리입니다.
+
+
+
+```java
+import java.util.Map;
+import java.util.HashMap;
+
+class Solution {
+   public int solution(String skill, String[] skill_trees) {
+		int answer = 0;
+
+		Map<Character, Integer> map = new HashMap<>();
+		for (int i = 0; i < skill.length(); i++) {
+			map.put(skill.charAt(i), i + 1);
+		}
+
+		for (int i = 0; i < skill_trees.length; i++) {
+			String str = skill_trees[i];
+			int index = 0;
+			boolean flag = true;
+			for (int j = 0; j < str.length(); j++) {
+				char ch = str.charAt(j);
+				if (skill.contains(Character.toString(ch))) {
+					if (map.get(ch) == index + 1) {
+						index++;
+					} else {
+						flag = false;
+						break;
+					}
+				}
+			}
+			if (flag)
+				answer++;
+		}
+      return answer;
+   }
+}
+```
+
+
+
+hashMap을 사용하여 풀이하였습니다.
+
+
+
+skill에 담긴 스킬들을 hashmap에 <Character, Integer>로 저장해주었습니다.
+
+
+
+Character에는 스킬 이름을, Integer에는 해당 스킬이 몇 번째인지 (i+1)를 사용하여 저장합니다.
+
+
+
+
+
+그 이후에 for문을 사용하여 skill_trees[i] 번째 요소들을 검사합니다.
+
+
+
+만약 스킬트리에 구성된 스킬이라면 map에서 스킬의 값이 index+1과 일치하는지 확인합니다.
+
+​	3번째 스킬이 등장한다면 항상 1->2->3 순서로 등장해야만 하므로
+
+   index 변수에 현재 사용된 스킬의 index를 저장해두고 다음번 스킬이 제대로 등장했는지를 확인합니다.
+
+
+
+flag 변수를 사용해서 이상이 없다면(flag == true) answer을 1씩 더해주어 풀이하였습니다.
+
+
+
+
+
+
+
+### :lock: ​Q. 다리를 지나는 트럭
+
+출처 :  https://programmers.co.kr/learn/courses/30/lessons/42583
+
+
+
+###### 문제 설명
+
+트럭 여러 대가 강을 가로지르는 일 차선 다리를 정해진 순으로 건너려 합니다. 모든 트럭이 다리를 건너려면 최소 몇 초가 걸리는지 알아내야 합니다. 트럭은 1초에 1만큼 움직이며, 다리 길이는 bridge_length이고 다리는 무게 weight까지 견딥니다.
+※ 트럭이 다리에 완전히 오르지 않은 경우, 이 트럭의 무게는 고려하지 않습니다.
+
+예를 들어, 길이가 2이고 10kg 무게를 견디는 다리가 있습니다. 무게가 [7, 4, 5, 6]kg인 트럭이 순서대로 최단 시간 안에 다리를 건너려면 다음과 같이 건너야 합니다.
+
+
+
+| 경과 시간 | 다리를 지난 트럭 | 다리를 건너는 트럭 | 대기 트럭 |
+| --------- | ---------------- | ------------------ | --------- |
+| 0         | []               | []                 | [7,4,5,6] |
+| 1~2       | []               | [7]                | [4,5,6]   |
+| 3         | [7]              | [4]                | [5,6]     |
+| 4         | [7]              | [4,5]              | [6]       |
+| 5         | [7,4]            | [5]                | [6]       |
+| 6~7       | [7,4,5]          | [6]                | []        |
+| 8         | [7,4,5,6]        | []                 | []        |
+
+
+
+따라서, 모든 트럭이 다리를 지나려면 최소 8초가 걸립니다.
+
+solution 함수의 매개변수로 다리 길이 bridge_length, 다리가 견딜 수 있는 무게 weight, 트럭별 무게 truck_weights가 주어집니다. 이때 모든 트럭이 다리를 건너려면 최소 몇 초가 걸리는지 return 하도록 solution 함수를 완성하세요.
+
+
+
+##### 제한 조건
+
+- bridge_length는 1 이상 10,000 이하입니다.
+- weight는 1 이상 10,000 이하입니다.
+- truck_weights의 길이는 1 이상 10,000 이하입니다.
+- 모든 트럭의 무게는 1 이상 weight 이하입니다.
+
+
+
+##### 입출력 예
+
+| bridge_length | weight | truck_weights                   | return |
+| ------------- | ------ | ------------------------------- | ------ |
+| 2             | 10     | [7,4,5,6]                       | 8      |
+| 100           | 100    | [10]                            | 101    |
+| 100           | 100    | [10,10,10,10,10,10,10,10,10,10] | 110    |
+
+
+
+```java
+import java.util.Queue;
+import java.util.LinkedList;
+
+class Solution {
+    public int solution(int bridge_length, int weight, int[] truck_weights) {
+        int Time = 0;
+
+		Queue<truck> waitingqueue = new LinkedList<>();
+		Queue<truck> runningQueue = new LinkedList<>();
+
+		for (int i = 0; i < truck_weights.length; i++) {
+			waitingqueue.add(new truck(truck_weights[i], 0));
+		}
+
+		int currWeight = 0;
+		while (!waitingqueue.isEmpty()) {
+			if(!runningQueue.isEmpty() && runningQueue.peek().in + bridge_length == Time)
+				currWeight -= runningQueue.peek().weight;
+			
+			if (currWeight + waitingqueue.peek().weight <= weight) {
+				waitingqueue.peek().in = Time;
+				currWeight += waitingqueue.peek().weight;
+				runningQueue.add(waitingqueue.poll());
+			}
+
+			if (runningQueue.peek().in + bridge_length == Time) {
+				runningQueue.poll();
+			}
+
+			Time++;
+		}
+		while(!runningQueue.isEmpty()) {
+			if(runningQueue.size() == 1)
+				Time = runningQueue.poll().in + bridge_length;
+            else
+                runningQueue.poll();
+		}
+		return (Time + 1);
+    }
+    
+    static class truck{
+        int weight;
+        int in;
+        
+        public truck(int w, int i){
+            this.weight = w;
+            this.in = i;
+        }
+    }
+}
+```
+
+
+
+
+
+waitingQueue와 runningQueue 2개를 이용하여 풀이하였습니다.
+
+
+
+currWeight 변수에 현재 다리 위에 있는 truck의 무게를 저장합니다.
+
+
+
+waitingQueue 가장 앞에 있는 truck의 무게가 weight보다 작다면
+
+
+
+waitingQueue에 있는 truck을 runningQueue로 옮깁니다.
+
+
+
+runningQueue 가장 앞에 있는 truck을 확인하여 
+
+
+
+( truck의 다리에 올라간 시간 + 다리의 길이 ) == Time (현재 시간) 이 된다면
+
+
+
+runningQueue 가장 앞에 있는 truck을 제거해주었습니다.
+
+
+
+
+
+while문을 이용하여 waitingQueue에 있는 truck을 모두 제거한 뒤
+
+
+
+runningQueue 마지막 트럭이 올라간 시간 + 다리의 길이 + 1 을 정답으로 return 해주었습니다.
+
+
+
++1을 해주는 이유는 다리에 있는 모든 트럭이 다리를 지나야 하기 때문입니다.
+
+
+
+
+
+
 
