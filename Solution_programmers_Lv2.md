@@ -696,7 +696,6 @@ break문을 사용하여 찾았다면 바로 종료해주었습니다.
 
 
 <hr/>
-
 이 문제가 스택으로 분류되어 있어서 의아했었는데 다른분이 풀이하신 것을 보니
 
 공부하는 데에 도움이 될 것 같아 남겨둡니다.
@@ -1053,6 +1052,312 @@ runningQueue 마지막 트럭이 올라간 시간 + 다리의 길이 + 1 을 정
 
 
 +1을 해주는 이유는 다리에 있는 모든 트럭이 다리를 지나야 하기 때문입니다.
+
+
+
+
+
+
+
+### :lock: ​Q. 쇠막대기
+
+출처 :  https://programmers.co.kr/learn/courses/30/lessons/42585
+
+
+
+###### 문제 설명
+
+여러 개의 쇠막대기를 레이저로 절단하려고 합니다. 효율적인 작업을 위해서 쇠막대기를 아래에서 위로 겹쳐 놓고, 레이저를 위에서 수직으로 발사하여 쇠막대기들을 자릅니다. 쇠막대기와 레이저의 배치는 다음 조건을 만족합니다.
+
+
+
+```
+- 쇠막대기는 자신보다 긴 쇠막대기 위에만 놓일 수 있습니다.
+- 쇠막대기를 다른 쇠막대기 위에 놓는 경우 완전히 포함되도록 놓되, 끝점은 겹치지 않도록 놓습니다.
+- 각 쇠막대기를 자르는 레이저는 적어도 하나 존재합니다.
+- 레이저는 어떤 쇠막대기의 양 끝점과도 겹치지 않습니다.
+```
+
+
+
+아래 그림은 위 조건을 만족하는 예를 보여줍니다. 수평으로 그려진 굵은 실선은 쇠막대기이고, 점은 레이저의 위치, 수직으로 그려진 점선 화살표는 레이저의 발사 방향입니다.
+
+![image0.png](https://grepp-programmers.s3.amazonaws.com/files/ybm/dbd166625b/d3ae656b-bb7b-421c-9f74-fa9ea800b860.png)
+
+이러한 레이저와 쇠막대기의 배치는 다음과 같이 괄호를 이용하여 왼쪽부터 순서대로 표현할 수 있습니다.
+
+
+
+```
+(a) 레이저는 여는 괄호와 닫는 괄호의 인접한 쌍 '()'으로 표현합니다. 또한 모든 '()'는 반드시 레이저를 표현합니다.
+(b) 쇠막대기의 왼쪽 끝은 여는 괄호 '('로, 오른쪽 끝은 닫힌 괄호 ')'로 표현됩니다.
+```
+
+
+
+위 예의 괄호 표현은 그림 위에 주어져 있습니다.
+쇠막대기는 레이저에 의해 몇 개의 조각으로 잘리는데, 위 예에서 가장 위에 있는 두 개의 쇠막대기는 각각 3개와 2개의 조각으로 잘리고, 이와 같은 방식으로 주어진 쇠막대기들은 총 17개의 조각으로 잘립니다.
+
+쇠막대기와 레이저의 배치를 표현한 문자열 arrangement가 매개변수로 주어질 때, 잘린 쇠막대기 조각의 총 개수를 return 하도록 solution 함수를 작성해주세요.
+
+
+
+##### 제한사항
+
+- arrangement의 길이는 최대 100,000입니다.
+- arrangement의 여는 괄호와 닫는 괄호는 항상 쌍을 이룹니다.
+
+
+
+##### 입출력 예
+
+| arrangement            | return |
+| ---------------------- | ------ |
+| ()(((()())(())()))(()) | 17     |
+
+##### 입출력 예 설명
+
+문제에 나온 예와 같습니다.
+
+
+
+```java
+import java.util.Stack;
+
+class Solution {
+    public int solution(String arrangement) {
+        Stack<Integer> onStack = new Stack<>();
+		Stack<Integer> offStack = new Stack<>();
+		boolean[] check = new boolean[arrangement.length()];
+
+		for (int i = 0; i < arrangement.length(); i++) {
+			char ch = arrangement.charAt(i);
+
+			if (ch == '(' && arrangement.charAt(i + 1) == ')') {
+				check[i] = true;
+			} else if (ch == '(' && arrangement.charAt(i + 1) == '(') {
+				onStack.add(i);
+			} else if (ch == ')' && arrangement.charAt(i - 1) == ')') {
+				offStack.add(i);
+			}
+		}
+
+		int answer = 0;
+		while (!onStack.isEmpty()) {
+			int start = onStack.pop();
+			int end = offStack.pop();
+			for (int i = start; i <= end; i++) {
+				if (check[i])
+					answer++;
+			}
+			answer++;
+		}
+		return answer;
+    }
+}
+```
+
+
+
+
+
+2개의 Stack을 사용하여 풀이하였습니다.
+
+
+
+먼저, for문을 사용하여 arrangement 를 반복하며 문자를 검사합니다.
+
+
+
+1. **'('** (여는 괄호)일 경우, 바로 다음 문자가 **'('**  (여는 괄호) 라면 **onStack**에 넣습니다.
+
+   --> 열고 바로 닫힌다면, 레이저 이므로 check배열에 [i] 번째를 true로 설정
+
+   
+
+2. **')'** (닫는 괄호)일 경우, 이전 문자도 **')'** (닫는 괄호) 라면 **offStack**에 넣습니다.
+
+
+
+while문을 통해 양쪽 Stack에서 한개씩 뽑아 여는 괄호를 int start, 닫는 괄호를 int end로 두고
+
+
+
+**start**부터 **end**까지 카운트를 세줍니다.
+
+
+
+중요한 점은 **레이저**가 있다면 해당 위치에서 **막대가 두 개로 나뉘므로**
+
+
+
+check[i]가 true인 i번째를 만났을 때에는 카운트를 하나 더 세주었습니다.
+
+
+
+
+
+
+
+### :lock: ​Q. 카카오프렌즈 컬러링북
+
+출처 :  https://programmers.co.kr/learn/courses/30/lessons/1829
+
+
+
+###### 문제 설명
+
+## 카카오 프렌즈 컬러링북
+
+출판사의 편집자인 어피치는 네오에게 컬러링북에 들어갈 원화를 그려달라고 부탁하여 여러 장의 그림을 받았다. 여러 장의 그림을 난이도 순으로 컬러링북에 넣고 싶었던 어피치는 영역이 많으면 색칠하기가 까다로워 어려워진다는 사실을 발견하고 그림의 난이도를 영역의 수로 정의하였다. (영역이란 상하좌우로 연결된 같은 색상의 공간을 의미한다.)
+
+
+
+그림에 몇 개의 영역이 있는지와 가장 큰 영역의 넓이는 얼마인지 계산하는 프로그램을 작성해보자.
+
+
+
+![alt text](http://t1.kakaocdn.net/codefestival/apeach.png)
+
+
+
+위의 그림은 총 12개 영역으로 이루어져 있으며, 가장 넓은 영역은 어피치의 얼굴면으로 넓이는 120이다.
+
+
+
+### 입력 형식
+
+입력은 그림의 크기를 나타내는 `m`과 `n`, 그리고 그림을 나타내는 `m × n` 크기의 2차원 배열 `picture`로 주어진다. 제한조건은 아래와 같다.
+
+- `1 <= m, n <= 100`
+- `picture`의 원소는 `0` 이상 `2^31 - 1` 이하의 임의의 값이다.
+- `picture`의 원소 중 값이 `0`인 경우는 색칠하지 않는 영역을 뜻한다.
+
+
+
+### 출력 형식
+
+리턴 타입은 원소가 두 개인 정수 배열이다. 그림에 몇 개의 영역이 있는지와 가장 큰 영역은 몇 칸으로 이루어져 있는지를 리턴한다.
+
+
+
+### 예제 입출력
+
+| m    | n    | picture                                                      | answer |
+| ---- | ---- | ------------------------------------------------------------ | ------ |
+| 6    | 4    | [[1, 1, 1, 0], [1, 2, 2, 0], [1, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 3], [0, 0, 0, 3]] | [4, 5] |
+
+
+
+### 예제에 대한 설명
+
+예제로 주어진 그림은 총 4개의 영역으로 구성되어 있으며, 왼쪽 위의 영역과 오른쪽의 영역은 모두 `1`로 구성되어 있지만 상하좌우로 이어져있지 않으므로 다른 영역이다. 가장 넓은 영역은 왼쪽 위 `1`이 차지하는 영역으로 총 5칸이다.
+
+
+
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Solution {
+    static int[][] map;
+    static boolean[][] visited;
+	static int[] di = { 0, 1, 0, -1 };
+	static int[] dj = { 1, 0, -1, 0 };
+	static Queue<Pos> q;
+	static int next_i, next_j, cnt, max, M, N;
+    
+    public int[] solution(int m, int n, int[][] picture) {
+        int numberOfArea = 0;
+        M = m;
+        N = n;
+		q = new LinkedList<Pos>();
+		visited = new boolean[m][n];
+		max = 0;
+
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (!visited[i][j] && picture[i][j] != 0) {
+					cnt = 0;
+					numberOfArea++;
+					bfs(picture, new Pos(i, j));
+				}
+			}
+		}
+
+		int[] answer = new int[2];
+		answer[0] = numberOfArea;
+		answer[1] = max;
+		return answer;
+    }
+    
+    static void bfs(int[][] picture, Pos before) {
+		q.offer(before);
+		visited[before.i][before.j] = true;
+
+		while (!q.isEmpty()) {
+			cnt++;
+			if (cnt > max)
+				max = cnt;
+
+			Pos temp = q.poll();
+			for (int k = 0; k < 4; k++) {
+				next_i = temp.i + di[k];
+				next_j = temp.j + dj[k];
+
+				if (next_i < 0 || next_i >= M || next_j < 0 || next_j >= N)
+					continue;
+				if (!visited[next_i][next_j] && picture[temp.i][temp.j] == picture[next_i][next_j]) {
+					visited[next_i][next_j] = true;
+					q.offer(new Pos(next_i, next_j));
+				}
+			}
+		}
+	}
+
+	static class Pos {
+		int i, j;
+
+		public Pos(int i, int j) {
+			super();
+			this.i = i;
+			this.j = j;
+		}
+	}
+}
+```
+
+
+
+
+
+**간단한 bfs 문제**입니다.
+
+
+
+먼저, 모든 지점을 방문하면서 
+
+​	**아직 방문하지 않았고**(!visited), **해당 지점이 색칠되어 있다면**( != 0) 
+
+해당 지점에서 **bfs**함수를 실행하였습니다.
+
+ 이때, **numberOfArea** 를 1씩 증가시켜 몇 개의 구역으로 나뉘는지 체크하였습니다.
+
+
+
+bfs에서는 상하좌우를 탐색하면서 아직 방문하지 않았고, 현재의 컬러와 같다면
+
+​	Queue에 담아주고 cnt 변수를 이용해 카운트 해주었습니다.
+
+
+
+queue에서 Pos 클래스를 뽑을 때마다, max 변수와 대소비교를 통해 최댓값을 찾아
+
+max 변수에 저장하여 최대 넓이를 찾았습니다.
+
+
+
+
 
 
 
