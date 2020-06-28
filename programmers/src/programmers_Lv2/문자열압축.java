@@ -7,17 +7,19 @@ public class 문자열압축 {
 	public static void main(String[] args) {
 		int answer = s.length();
 		int size = s.length();
-
-		if (answer <= 2) {
-			System.out.println(answer);
-		} else {
-			for (int i = size / 2; i >= 1; i--) {
-				int min = check(s, i);
-				if (min < answer)
-					answer = min;
-			}
-		}
-		System.out.println("answer : " + answer);
+		char ch = 'b';
+		ch-=2;
+		System.out.println(ch);
+//		if (answer <= 2) {
+//			System.out.println(answer);
+//		} else {
+//			for (int i = size / 2; i >= 1; i--) {
+//				int min = check(s, i);
+//				if (min < answer)
+//					answer = min;
+//			}
+//		}
+//		System.out.println("answer : " + answer);
 	}
 
 	// len 개씩 단어를 잘라서 압축시켜본다
@@ -26,7 +28,7 @@ public class 문자열압축 {
 		int cnt = len;
 		String split = "";
 		int sameCheck = 0;
-
+		
 		System.out.println("len : " + len + "----");
 		for (int k = 0; k + len < length; k += len) {
 			System.out.println("cnt : " + cnt + "k : " + k);
