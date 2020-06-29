@@ -59,51 +59,109 @@
 <br/>
 
 ```java
-class Solution {
-  public int solution(String dartResult) {
-      	int[] score = new int[3];
-		int answer = 0;
-		int scoreIdx = 0;
+package practice;
 
-		for (int i = 0; i < dartResult.length(); i++) {
-			char ch = dartResult.charAt(i);
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-			if (ch == 'S' || ch == 'D' || ch == 'T') {
-				if (ch == 'D')
-					score[scoreIdx - 1] *= score[scoreIdx - 1];
-				else if (ch == 'T')
-					score[scoreIdx - 1] = score[scoreIdx - 1] * score[scoreIdx - 1] * score[scoreIdx - 1];
-			} else if (ch == '*' || ch == '#') {
-				if (ch == '*') {
-					score[scoreIdx - 1] *= 2;
-					if (scoreIdx > 1)
-						score[scoreIdx - 2] *= 2;
-				} else {
-					score[scoreIdx - 1] *= -1;
-				}
-			} else if (ch - '0' >= 0 && ch - '0' < 10) {
-				if (ch - '0' == 1) {
-					if (dartResult.charAt(i + 1) - '0' == 0) {
-						score[scoreIdx] = 10;
-						i++;
-						scoreIdx++;
-						continue;
-					} else {
-						score[scoreIdx] = 1;
-					}
-				} else {
-					score[scoreIdx] = dartResult.charAt(i) - '0';
-				}
-				scoreIdx++;
+public class Main_2776_암기왕 {
+	static int TC, N, M;
+	static StringTokenizer st;
+	static StringBuilder sb;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		TC = Integer.parseInt(br.readLine().trim());
+		sb = new StringBuilder();
+
+		for (int tc = 0; tc < TC; tc++) {
+			N = Integer.parseInt(br.readLine().trim());
+			int[] arr1 = new int[N];
+			st = new StringTokenizer(br.readLine(), " ");
+			for (int i = 0; i < N; i++) {
+				arr1[i] = Integer.parseInt(st.nextToken());
+			}
+
+			Arrays.sort(arr1);
+
+			M = Integer.parseInt(br.readLine().trim());
+			st = new StringTokenizer(br.readLine(), " ");
+
+			for (int i = 0; i < M; i++) {
+				sb.append(Arrays.binarySearch(arr1, Integer.parseInt(st.nextToken())) > -1 ? "1\n" : "0\n");
 			}
 		}
+		System.out.println(sb.toString());
+	}
+}
+```
 
-		answer = score[0] + score[1] + score[2];
+<hr/>
 
-      return answer;
-  }
+먼저 이분탐색을 이용하여 풀이하였습니다.
+
+
+
+Arrays에서 제공하는 메소드인 binarySearch를 이용하였습니다.
+
+
+
+두 번째 입력으로 들어오는 키 값이 있다면 1, 없다면 0을 출력해주었습니다.
+
+
+
+<hr/>
+
+```java
+package practice;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Main_2776_암기왕_Hash {
+	static int TC, N, M;
+	static StringTokenizer st;
+	static StringBuilder sb;
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		TC = Integer.parseInt(br.readLine().trim());
+		sb = new StringBuilder();
+		
+		for (int tc = 0; tc < TC; tc++) {
+			N = Integer.parseInt(br.readLine().trim());
+			Map<Integer, Boolean> map = new HashMap<>();
+			st = new StringTokenizer(br.readLine(), " ");
+			
+			for (int i = 0; i < N; i++) {
+				map.put(Integer.parseInt(st.nextToken()), true);
+			}
+			
+			M = Integer.parseInt(br.readLine().trim());
+			st = new StringTokenizer(br.readLine(), " ");
+			for (int m = 0; m < M; m++) {
+				if(map.containsKey(Integer.parseInt(st.nextToken())))
+					sb.append("1\n");
+				else
+					sb.append("0\n");
+			}
+		}
+		System.out.println(sb.toString());
+	}
+
 }
 ```
 
 
 
+두 번째 방식은 HashMap을 사용하여 풀이하였습니다.
+
+
+
+HashMap에 보유한 key라면 1을 출력하고, 없다면 0을 출력해주었습니다.
