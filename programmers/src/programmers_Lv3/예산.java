@@ -40,5 +40,4 @@ public class ¿¹»ê {
 
 		return result;
 	}
-
 }
