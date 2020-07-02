@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class ì‹¤íŒ¨ìœ¨ {
+public class ½ÇÆÐÀ² {
 	static int N = 4;
 	static int[] stages = { 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 };
 
