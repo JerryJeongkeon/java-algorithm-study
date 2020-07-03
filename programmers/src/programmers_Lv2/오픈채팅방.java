@@ -16,11 +16,11 @@ public class ¿ÀÇÂÃ¤ÆÃ¹æ {
 		Map<String, String> map = new HashMap<>();
 
 		for (String str : record) {
-			st = new StringTokenizer(str, " ");
-			if (st.nextToken().equals("Enter")) {
-				map.put(st.nextToken(), st.nextToken());
-			} else if (st.nextToken().equals("Change")) {
-				map.put(st.nextToken(), st.nextToken());
+			String[] tmp = str.split(" ");
+			if (tmp[0].equals("Enter")) {
+				map.put(tmp[1], tmp[2]);
+			} else if (tmp[0].equals("Change")) {
+				map.put(tmp[1], tmp[2]);
 			}
 		}
 
