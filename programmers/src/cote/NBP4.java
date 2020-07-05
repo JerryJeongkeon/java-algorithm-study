@@ -2,14 +2,20 @@ import java.util.Arrays;
 
 public class NBP4 {
 
-	static int N = 2;
-	static int capacity = 5;
-	static int[] files = { 1, 2, 3, 4, 5 };
+//	static int N = 2;
+//	static int capacity = 5;
+//	static int[] files = { 1, 2, 3, 4, 5 };
 
+	static int N = 10;
+	static int capacity = 5;
+	static int[] files = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	
 	static int[] dp;
 	static boolean[] used;
 	static int answer;
 
+	// sorting 먼저 할 것.
+	
 	public static void main(String[] args) {
 		answer = 0;
 
@@ -27,11 +33,11 @@ public class NBP4 {
 	}
 
 	static void solve(int[] dp, boolean[] used, int capacity, int[] files, int size, int idx) {
-		System.out.println("===================");
-		System.out.println(Arrays.toString(dp));
-		System.out.println(Arrays.toString(used));
-		System.out.println("size : " + size);
-		System.out.println("=---------------------");
+//		System.out.println("===================");
+//		System.out.println(Arrays.toString(dp));
+//		System.out.println(Arrays.toString(used));
+//		System.out.println("size : " + size);
+//		System.out.println("=---------------------");
 
 		if (size > answer)
 			answer = size;
