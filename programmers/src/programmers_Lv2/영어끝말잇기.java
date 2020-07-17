@@ -1,23 +1,36 @@
 package programmers_Lv2;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 
 public class 영어끝말잇기 {
-	static int n = 5;
-	static String[] words = { "tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank" };
+	static int n = 2;
+	static String[] words = { "hello", "one", "even", "never", "now", "world", "draw" };
 
 	public static void main(String[] args) {
-		Map<String, Integer> map = new HashMap<>();
+		HashSet<String> set = new HashSet<>();
 		int[] result = new int[2];
 		boolean flag = true;
 
-		for (int i = 0; i < words.length; i++) {
-			if (!flag) {
-				result[0] = i - 1;
+		set.add(words[0]);
+		char lastChar = words[0].charAt(words[0].length() - 1);
+		char firstChar = '.';
+		int size = words.length;
+
+		for (int i = 1; i < size; i++) {
+			System.out.println("flag : " + flag + " first : " + firstChar + ", last : " + lastChar + " i : " + i
+					+ " words : " + words[i]);
+
+			firstChar = words[i].charAt(0);
+			if (lastChar != firstChar || set.contains(words[i]) || words[i].length() == 1) {
+				result[0] = (i % n) + 1;
+				result[1] = (i / n) + 1;
+				flag = false;
 				break;
 			}
+			set.add(words[i]);
+			
+			lastChar = words[i].charAt(words[i].length() - 1);
 		}
 
 		System.out.println(Arrays.toString(result));
