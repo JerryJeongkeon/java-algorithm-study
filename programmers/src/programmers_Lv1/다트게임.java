@@ -1,6 +1,6 @@
 package programmers_Lv1;
 
-public class ë‹¤íŠ¸ê²Œì„ {
+public class ´ÙÆ®°ÔÀÓ {
 	static String dartResult = "1D2S#10S";
 
 	public static void main(String[] args) {

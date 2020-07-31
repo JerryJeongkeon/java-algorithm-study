@@ -2,14 +2,15 @@ package programmers_Lv1;
 
 import java.util.Arrays;
 
-public class ì •ìˆ˜ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œë°°ì¹˜í•˜ê¸° {
+public class Á¤¼ö³»¸²Â÷¼øÀ¸·Î¹èÄ¡ÇÏ±â {
 	static long n = 118372;
+
 	public static void main(String[] args) {
-		String input = ""+ n;
+		String input = "" + n;
 		int size = input.length();
 		int[] nums = new int[size];
 		for (int i = 0; i < size; i++) {
-			nums[i] = input.charAt(i)- '0';
+			nums[i] = input.charAt(i) - '0';
 		}
 		Arrays.sort(nums);
 		StringBuilder sb = new StringBuilder();

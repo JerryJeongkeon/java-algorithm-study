@@ -56,46 +56,47 @@
 ```java
 class Solution {
   public int solution(String dartResult) {
-      	int[] score = new int[3];
+		int[] score = new int[3];
 		int answer = 0;
 		int scoreIdx = 0;
 
 		for (int i = 0; i < dartResult.length(); i++) {
 			char ch = dartResult.charAt(i);
-
-			if (ch == 'S' || ch == 'D' || ch == 'T') {
-				if (ch == 'D')
-					score[scoreIdx - 1] *= score[scoreIdx - 1];
-				else if (ch == 'T')
-					score[scoreIdx - 1] = score[scoreIdx - 1] * score[scoreIdx - 1] * score[scoreIdx - 1];
-			} else if (ch == '*' || ch == '#') {
-				if (ch == '*') {
-					score[scoreIdx - 1] *= 2;
-					if (scoreIdx > 1)
-						score[scoreIdx - 2] *= 2;
-				} else {
-					score[scoreIdx - 1] *= -1;
-				}
-			} else if (ch - '0' >= 0 && ch - '0' < 10) {
-				if (ch - '0' == 1) {
-					if (dartResult.charAt(i + 1) - '0' == 0) {
+			if (ch >= '0' && ch <= '9') {
+				if (ch == '1') {
+					if (dartResult.charAt(i + 1) == '0') {
 						score[scoreIdx] = 10;
 						i++;
 						scoreIdx++;
 						continue;
-					} else {
-						score[scoreIdx] = 1;
 					}
+					score[scoreIdx] = 1;
+					scoreIdx++;
 				} else {
-					score[scoreIdx] = dartResult.charAt(i) - '0';
+					score[scoreIdx] = ch - '0';
+					scoreIdx++;
 				}
-				scoreIdx++;
+			} else if (ch == 'S' || ch == 'D' || ch == 'T') {
+				if (ch == 'D') {
+					score[scoreIdx - 1] *= score[scoreIdx - 1];
+				} else if (ch == 'T') {
+					score[scoreIdx - 1] *= score[scoreIdx - 1] * score[scoreIdx - 1];
+				}
+			} else if (ch == '*' || ch == '#') {
+				if (ch == '*') {
+					if (scoreIdx == 1) {
+						score[0] *= 2;
+						continue;
+					}
+					score[scoreIdx - 1] *= 2;
+					score[scoreIdx - 2] *= 2;
+				} else if (ch == '#') {
+					score[scoreIdx - 1] *= -1;
+				}
 			}
 		}
-
-		answer = score[0] + score[1] + score[2];
-
-      return answer;
+        answer = score[0] + score[1] + score[2];
+        return answer;
   }
 }
 ```
@@ -212,63 +213,56 @@ for문을 이용하여 입력으로 들어온 문자열을 한 자씩 돌면서 
 
 ```java
 import java.util.PriorityQueue;
-import java.util.Comparator;
-
 class Solution {
     public int[] solution(int N, int[] stages) {
-		int[] answer = new int[N];
-		int userSize = stages.length;
+        int[] result = new int[N];
+		int[] countStageUsers = new int[N + 2];
+		PriorityQueue<Stage> pq = new PriorityQueue<>();
 
-		int[] stageCnt = new int[N + 2];
-		for (int i = 0; i < userSize; i++) {
-			stageCnt[stages[i]]++;
+		for (int i = 0; i < stages.length; i++) {
+			countStageUsers[stages[i]]++;
 		}
 
-		int nowTotalUser = 0;
-		double stageFail = 0.0;
-		int temp = 0;
-        
-        PriorityQueue<Stage> pq = new PriorityQueue<>(new Comparator<Stage>() {
-			@Override
-			public int compare(Stage s1, Stage s2) {
-				if (s1.failer == s2.failer)
-					return s1.index - s2.index;
-				if (s2.failer - s1.failer > 0)
-					return 1;
-				else if (s2.failer - s1.failer < 0)
-					return -1;
-				return 0;
+		int reach = stages.length;
+		double failure = 0;
+
+		for (int i = 1; i < N + 1; i++) {
+			if (reach == 0) {
+				failure = 0.0;
+			} else
+				failure = (double) countStageUsers[i] / reach;
+			reach -= countStageUsers[i];
+
+			pq.offer(new Stage(i, failure));
+		}
+
+		for (int i = 0; i < result.length; i++) {
+			Stage temp = pq.poll();
+			result[i] = temp.idx;
+		}
+        return result;
+	}
+
+	static class Stage implements Comparable<Stage> {
+		int idx;
+		double failure;
+
+		public Stage(int index, double failure) {
+			this.idx = index;
+			this.failure = failure;
+		}
+
+		@Override
+		public int compareTo(Stage stage) {
+			if (stage.failure == this.failure) {
+				return this.idx - stage.idx;
 			}
-		});
-        
-        for (int i = 1; i <= N; i++) {
-			temp = nowTotalUser;
-			nowTotalUser += stageCnt[i];
-
-			if (userSize - temp == 0 || stageCnt[i] == 0) {
-				pq.add(new Stage(i, 0));
-			} else {
-				stageFail = (double) stageCnt[i] / (userSize - temp);
-				pq.add(new Stage(i, stageFail));
-			}
+			if (this.failure - stage.failure > 0)
+				return -1;
+			else
+				return 1;
 		}
-
-		for (int i = 1; i <= N; i++) {
-			answer[i - 1] = pq.remove().index;
-		}
-
-        return answer;
-    }
-        
-    static class Stage{
-        int index;
-        double failer;
-        
-        public Stage(int i, double f){
-            this.index = i;
-            this.failer = f;
-        }        
-    }
+	}
 }
 ```
 
@@ -277,6 +271,10 @@ class Solution {
 단계별 실패율을 구해주기 위해서 Stage 객체를 만들어주었습니다.
 
 각각의 Stage 결과를 PriorityQueue에 실패율이 높은 순에서 낮은 순으로 정렬해주었습니다.
+
+
+
+실패율을 구하기 위해 먼저 countStageUsers 배열에 해당 스테이지에 도달한 유저의 수를 저장하고, reach(해당 스테이지에 도달한 전체 유저의 수) 변수를 이용하였습니다.
 
 
 
@@ -348,49 +346,38 @@ PriorityQueue를 사용한 이유는 PriorityQueue의 경우 정렬 시 O(logN)�
 
 
 ```java
-
 class Solution {
   public String[] solution(int n, int[] arr1, int[] arr2) {
-      String[] answer = new String[n];
-      int[][] board1 = new int[n][n];
-      int[][] board2 = new int[n][n];
-      
-      String temp ="";
-      int index = 0;
-      
-      for(int i = 0; i < n; i++){
-          temp = Integer.toBinaryString(arr1[i]);
-          index = 0;
-          for(int j = n - temp.length(); j < n; j++){
-              board1[i][j] = temp.charAt(index) - '0';
-              index++;
-          }
-          
-          temp = Integer.toBinaryString(arr2[i]);
-          index = 0;
-          for(int j = n - temp.length(); j < n; j++){
-              board2[i][j] = temp.charAt(index) - '0';
-              index++;
-          }
-      }
-      
-      StringBuilder sb = new StringBuilder();
-      char[][] arr = new char[n][n];
-      
-      for(int i = 0; i < n; i++){
-          sb = new StringBuilder();
-          for(int j = 0; j < n; j++){
-              if(board1[i][j] == 1 || board2[i][j] == 1){
-                  arr[i][j] = '#';
-                  sb.append(arr[i][j]);
-                } else 
-                  sb.append(" ");
-          }
-          answer[i] = sb.toString();
-          System.out.println(answer[i]);
-          }
-      
-      return answer;
+		String[] answer = new String[n];
+		int[][] board1 = new int[n][n];
+		int[][] board2 = new int[n][n];
+
+		for (int i = 0; i < n; i++) {
+			int num = arr1[i];
+			String binaryNum = Integer.toBinaryString(num);
+			for (int j = 0; j < binaryNum.length(); j++) {
+				board1[i][n - j - 1] = binaryNum.charAt(binaryNum.length() - j - 1) - '0';
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			int num = arr2[i];
+			String binaryNum = Integer.toBinaryString(num);
+			for (int j = 0; j < binaryNum.length(); j++) {
+				board2[i][n - j - 1] = binaryNum.charAt(binaryNum.length() - j - 1) - '0';
+			}
+		}
+
+		for (int i = 0; i < n; i++) {
+			answer[i] = "";
+			for (int j = 0; j < n; j++) {
+				if(board1[i][j] == 1 || board2[i][j] == 1) {
+					answer[i] += "#";
+				} else
+					answer[i] += " ";
+			}
+		}
+		return answer;
   }
 }
 ```
@@ -411,7 +398,7 @@ board라는 이름의 배열 2개를 만들어준 뒤,
 
 
 
-마지막으로 StringBuilder()를 사용하여 문자열로 만들어준 뒤 answer배열에 담아 출력해주었습니다.
+마지막으로 StringBuilder()를 사용해도 되지만, 지도의 크기가 작아 String 변수에 문자를 덧붙여주었습니다.
 
 
 
@@ -1728,59 +1715,358 @@ try hello world는 세 단어 try, hello, world로 구성되어 있습니다. �
 
 
 ```java
-import java.util.StringTokenizer;
-
 class Solution {
   public String solution(String s) {
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(s, " ");
-
-      while (st.hasMoreTokens()) {
-			String temp = st.nextToken();
-			String Upper = temp.toUpperCase();
-			String Lower = temp.toLowerCase();
-		
-          for (int i = 0; i < temp.length(); i++) {
-				if (i % 2 == 0) {
-					sb.append(Upper.charAt(i));
+		int idx = 0;
+      	String upper = s.toUpperCase();
+		String lower = s.toLowerCase();
+      
+		for (int i = 0; i < s.length(); i++) {		
+			if(s.charAt(i) == ' ') {
+				sb.append(' ');
+				idx = 0;
+			} else {
+				if(idx % 2 == 0) {
+					sb.append(upper.charAt(i));
+					idx++;
 				} else {
-					sb.append(Lower.charAt(i));
+					sb.append(lower.charAt(i));
+					idx++;
 				}
 			}
-          if(st.hasMoreTokens())
-			    sb.append(" ");
 		}
-		String answer = sb.toString();
-      return answer;
+
+        String answer = sb.toString();
+        return answer;
   }
 }
 ```
 
 
 
-Stringbuilder와 StringTokenizer 그리고 hasMoreTokens를 적극 활용하여 풀이하였습니다.
+Stringbuilder 를 활용하여 풀이하였습니다.
 
 
 
-먼저 문제에서 주어지는 s를 StringTokenizer를 사용하여 한 단어씩 뽑아주었습니다.
+먼저 문제에서 주어지는 s를 사용하여 upper와 lower를 만들었습니다.
 
 
 
+이후 for문을 반복하면서 공백을 만났을 경우, idx 값을 0으로 초기화해준 뒤 공백을 붙여주었습니다.
 
 
-이후 st.hasMoreTokens() 메소드를 사용하여 한 단어씩 뽑은 뒤에 temp 변수에 저장해주었습니다.
 
-Upper변수에는 대문자로 변환한 문자열을, Lower 변수에는 소문자로 변환한 문자열을 저장합니다.
-
-for문을 통해 temp의 길이만큼 홀수번째에서는 소문자를 추가하고 짝수에는 대문자를 뽑아 한 자씩
-
-덧붙여주었습니다.
+공백이 아닌 문자를 만났을 때에는 **idx % 2** 값이 0인 경우 upper에서 문자를 붙여주고, 0이 아닌 경우에는 lower에서 문자를 붙여주었습니다.
 
 
 
 
 
-마지막으로 만약 다음번에 더 붙일 단어가 존재한다면 공백 문자를 추가하여 풀이하였습니다.
+
+
+###  :lock:  Q. 키패드 누르기
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/67256
+
+
+
+## 키패드 누르기
+
+
+
+###### 문제 설명
+
+스마트폰 전화 키패드의 각 칸에 다음과 같이 숫자들이 적혀 있습니다.
+
+![kakao_phone1.png](https://grepp-programmers.s3.ap-northeast-2.amazonaws.com/files/production/4b69a271-5f4a-4bf4-9ebf-6ebed5a02d8d/kakao_phone1.png)
+
+이 전화 키패드에서 왼손과 오른손의 엄지손가락만을 이용해서 숫자만을 입력하려고 합니다.
+맨 처음 왼손 엄지손가락은 `*` 키패드에 오른손 엄지손가락은 `#` 키패드 위치에서 시작하며, 엄지손가락을 사용하는 규칙은 다음과 같습니다.
+
+
+
+1. 엄지손가락은 상하좌우 4가지 방향으로만 이동할 수 있으며 키패드 이동 한 칸은 거리로 1에 해당합니다.
+2. 왼쪽 열의 3개의 숫자 `1`, `4`, `7`을 입력할 때는 왼손 엄지손가락을 사용합니다.
+3. 오른쪽 열의 3개의 숫자 `3`, `6`, `9`를 입력할 때는 오른손 엄지손가락을 사용합니다.
+4. 가운데 열의 4개의 숫자 `2`, `5`, `8`, `0`을 입력할 때는 두 엄지손가락의 현재 키패드의 위치에서 더 가까운 엄지손가락을 사용합니다.
+   4-1. 만약 두 엄지손가락의 거리가 같다면, 오른손잡이는 오른손 엄지손가락, 왼손잡이는 왼손 엄지손가락을 사용합니다.
+
+
+
+순서대로 누를 번호가 담긴 배열 numbers, 왼손잡이인지 오른손잡이인 지를 나타내는 문자열 hand가 매개변수로 주어질 때, 각 번호를 누른 엄지손가락이 왼손인 지 오른손인 지를 나타내는 연속된 문자열 형태로 return 하도록 solution 함수를 완성해주세요.
+
+
+
+##### **[제한사항]**
+
+- numbers 배열의 크기는 1 이상 1,000 이하입니다.
+
+- numbers 배열 원소의 값은 0 이상 9 이하인 정수입니다.
+
+- hand는
+
+   
+
+  ```
+  "left"
+  ```
+
+   
+
+  또는
+
+   
+
+  ```
+  "right"
+  ```
+
+   
+
+  입니다.
+
+  - `"left"`는 왼손잡이, `"right"`는 오른손잡이를 의미합니다.
+
+- 왼손 엄지손가락을 사용한 경우는 `L`, 오른손 엄지손가락을 사용한 경우는 `R`을 순서대로 이어붙여 문자열 형태로 return 해주세요.
+
+
+
+------
+
+##### **입출력 예**
+
+| numbers                           | hand      | result          |
+| --------------------------------- | --------- | --------------- |
+| [1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5] | `"right"` | `"LRLLLRLLRRL"` |
+| [7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2] | `"left"`  | `"LRLLRRLLLRR"` |
+| [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]    | `"right"` | `"LLRLLRLLRL"`  |
+
+
+
+##### **입출력 예에 대한 설명**
+
+**입출력 예 #1**
+
+순서대로 눌러야 할 번호가 [1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5]이고, 오른손잡이입니다.
+
+| 왼손 위치 | 오른손 위치 | 눌러야 할 숫자 | 사용한 손 | 설명                                                         |
+| --------- | ----------- | -------------- | --------- | ------------------------------------------------------------ |
+| *         | #           | 1              | L         | 1은 왼손으로 누릅니다.                                       |
+| 1         | #           | 3              | R         | 3은 오른손으로 누릅니다.                                     |
+| 1         | 3           | 4              | L         | 4는 왼손으로 누릅니다.                                       |
+| 4         | 3           | 5              | L         | 왼손 거리는 1, 오른손 거리는 2이므로 왼손으로 5를 누릅니다.  |
+| 5         | 3           | 8              | L         | 왼손 거리는 1, 오른손 거리는 3이므로 왼손으로 8을 누릅니다.  |
+| 8         | 3           | 2              | R         | 왼손 거리는 2, 오른손 거리는 1이므로 오른손으로 2를 누릅니다. |
+| 8         | 2           | 1              | L         | 1은 왼손으로 누릅니다.                                       |
+| 1         | 2           | 4              | L         | 4는 왼손으로 누릅니다.                                       |
+| 4         | 2           | 5              | R         | 왼손 거리와 오른손 거리가 1로 같으므로, 오른손으로 5를 누릅니다. |
+| 4         | 5           | 9              | R         | 9는 오른손으로 누릅니다.                                     |
+| 4         | 9           | 5              | L         | 왼손 거리는 1, 오른손 거리는 2이므로 왼손으로 5를 누릅니다.  |
+| 5         | 9           | -              | -         |                                                              |
+
+따라서 `"LRLLLRLLRRL"`를 return 합니다.
+
+**입출력 예 #2**
+
+왼손잡이가 [7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2]를 순서대로 누르면 사용한 손은 `"LRLLRRLLLRR"`이 됩니다.
+
+**입출력 예 #3**
+
+오른손잡이가 [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]를 순서대로 누르면 사용한 손은 `"LLRLLRLLRL"`이 됩니다.
+
+
+
+```java
+import java.util.Map;
+import java.util.HashMap;
+
+class Solution {
+    public String solution(int[] numbers, String hand) {
+        Map<String, Integer> map = new HashMap<>();
+		map.put("12", 1);
+		map.put("15", 2);
+		map.put("18", 3);
+		map.put("10", 4);
+
+		map.put("22", 0);
+		map.put("25", 1);
+		map.put("28", 2);
+		map.put("20", 3);
+
+		map.put("32", 1);
+		map.put("35", 2);
+		map.put("38", 3);
+		map.put("30", 4);
+
+		map.put("42", 2);
+		map.put("45", 1);
+		map.put("48", 2);
+		map.put("40", 3);
+
+		map.put("52", 1);
+		map.put("55", 0);
+		map.put("58", 1);
+		map.put("50", 2);
+
+		map.put("62", 2);
+		map.put("65", 1);
+		map.put("68", 2);
+		map.put("60", 3);
+
+		map.put("72", 3);
+		map.put("75", 2);
+		map.put("78", 1);
+		map.put("70", 2);
+
+		map.put("82", 2);
+		map.put("85", 1);
+		map.put("88", 0);
+		map.put("80", 1);
+
+		map.put("92", 3);
+		map.put("95", 2);
+		map.put("98", 1);
+		map.put("90", 2);
+
+		map.put("*2", 4);
+		map.put("*5", 3);
+		map.put("*8", 2);
+		map.put("*0", 1);
+
+		map.put("02", 3);
+		map.put("05", 2);
+		map.put("08", 1);
+		map.put("00", 0);
+
+		map.put("#2", 4);
+		map.put("#5", 3);
+		map.put("#8", 2);
+		map.put("#0", 1);
+
+		StringBuilder sb = new StringBuilder();
+		String left = "*";
+		String right = "#";
+
+		for (int i = 0; i < numbers.length; i++) {
+			String ch = "" + numbers[i];
+			if (ch.equals("1") || ch.equals("4") || ch.equals("7")) {
+				sb.append("L");
+				left = ch;
+			} else if (ch.equals("3") || ch.equals("6") || ch.equals("9")) {
+				sb.append("R");
+				right = ch;
+			} else {
+				String leftTemp = left;
+				String rightTemp = right;
+				
+				int leftDist = map.get(left+ch);
+				int rightDist = map.get(right + ch);
+				
+				if(leftDist > rightDist) {
+					sb.append("R");
+					right = ch;
+				} else if (leftDist < rightDist) {
+					sb.append("L");
+					left = ch;
+				} else {
+					if(hand.equals("left")) {
+						sb.append("L");
+						left = ch;
+					} else {
+						sb.append("R");
+						right = ch;
+					}
+				}
+			}
+		}
+		return sb.toString();
+    }
+}
+```
+
+
+
+문제가 잘 풀리지 않아 거의 노가다 하다시피 풀이하여 추천드리지 않습니다...
+
+
+
+해쉬맵에 현재 위치에서 다음 번호까지의 거리를 모두 저장해두었습니다.
+
+
+
+손이 이동하면 움직인 위치를 left 또는 right에 저장해두고 다음번 키패드까지의 거리를 계산하였습니다.
+
+
+
+
+
+
+
+### :lock: ​ Q. 약수의 합
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12928
+
+
+
+## 약수의 합
+
+
+
+###### 문제 설명
+
+정수 n을 입력받아 n의 약수를 모두 더한 값을 리턴하는 함수, solution을 완성해주세요.
+
+
+
+##### 제한 사항
+
+- `n`은 0 이상 3000이하인 정수입니다.
+
+
+
+##### 입출력 예
+
+| n    | return |
+| ---- | ------ |
+| 12   | 28     |
+| 5    | 6      |
+
+
+
+###### 입출력 예 설명
+
+입출력 예 #1
+12의 약수는 1, 2, 3, 4, 6, 12입니다. 이를 모두 더하면 28입니다.
+
+입출력 예 #2
+5의 약수는 1, 5입니다. 이를 모두 더하면 6입니다.
+
+
+
+```java
+class Solution {
+  public int solution(int num) {
+	    int answer = 0;
+      
+	    for(int i = 1; i <= num/2; i++){
+	          if(num%i == 0) answer += i;
+	    }
+      
+        return answer + num;
+	}
+}
+```
+
+
+
+
+
+정수 num의 모든 약수의 합을 구하는 문제입니다.
+
+
+
+가장 큰 약수는 num을 2로 나누었을 때 나머지가 0인 경우이므로, for문을 1부터 num/2 까지 반복하면서  **num % i**가 0인 경우에 answer 변수에 더해주었습니다.
 
 
 

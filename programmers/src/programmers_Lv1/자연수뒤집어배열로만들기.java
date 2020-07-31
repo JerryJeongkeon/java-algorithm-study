@@ -2,11 +2,11 @@ package programmers_Lv1;
 
 import java.util.Arrays;
 
-public class ì •ìˆ˜ë’¤ì§‘ì–´ë°°ì—´ë¡œë§Œë“¤ê¸° {
+public class ÀÚ¿¬¼öµÚÁý¾î¹è¿­·Î¸¸µé±â {
 	static long n = 12345;
-	
+
 	public static void main(String[] args) {
-		String input = ""+n;
+		String input = "" + n;
 		int size = input.length();
 		int[] answer = new int[size];
 		for (int i = size - 1; i >= 0; i--) {

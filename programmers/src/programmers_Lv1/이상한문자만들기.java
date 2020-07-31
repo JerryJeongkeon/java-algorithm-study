@@ -1,27 +1,31 @@
 package programmers_Lv1;
 
-import java.util.StringTokenizer;
-
-public class ì´ìƒí•œë¬¸ìë§Œë“¤ê¸° {
-	static String s = "try hello world";
+public class ÀÌ»óÇÑ¹®ÀÚ¸¸µé±â {
+	static String s = "Let MEINTRODUCE MYSELF";
 
 	public static void main(String[] args) {
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(s, " ");
-		while (st.hasMoreTokens()) {
-			String temp = st.nextToken();
-			String Upper = temp.toUpperCase();
-			String Lower = temp.toLowerCase();
-			for (int i = 0; i < temp.length(); i++) {
-				if (i % 2 == 0) {
-					sb.append(Upper.charAt(i));
+		int idx = 0;
+		
+		for (int i = 0; i < s.length(); i++) {
+			String upper = s.toUpperCase();
+			String lower = s.toLowerCase();
+			
+			if(s.charAt(i) == ' ') {
+				sb.append(' ');
+				idx = 0;
+			} else {
+				if(idx % 2 == 0) {
+					sb.append(upper.charAt(i));
+					idx++;
 				} else {
-					sb.append(Lower.charAt(i));
+					sb.append(lower.charAt(i));
+					idx++;
 				}
 			}
-			sb.append(" ");
 		}
-		System.out.println(sb.toString());
-	}
 
+		String answer = sb.toString();
+		System.out.println(answer);
+	}
 }

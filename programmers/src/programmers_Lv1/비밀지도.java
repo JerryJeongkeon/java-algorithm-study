@@ -1,6 +1,6 @@
 package programmers_Lv1;
 
-public class ë¹„ë°€ì§€ë„ {
+public class ºñ¹ĞÁöµµ {
 	static int n = 5;
 	static int[] arr1 = {9, 20, 28, 18, 11};
 	static int[] arr2 = {30, 1, 21, 17, 28};

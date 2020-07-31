@@ -1,6 +1,6 @@
 package programmers_Lv1;
 
-public class ì½œë¼ì¸ ì¶”ì¸¡ {
+public class Äİ¶óÃ÷ÃßÃø {
 	static long num = 1;
 	
 	public static void main(String[] args) {
