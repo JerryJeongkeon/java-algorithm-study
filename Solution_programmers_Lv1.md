@@ -1,3 +1,5 @@
+
+
 ## 🚩 자바 알고리즘 풀이
 
 자바 언어를 이용한 알고리즘 문제풀이 해설입니다.
@@ -2005,10 +2007,6 @@ class Solution {
 
 ### :lock: ​ Q. 약수의 합
 
-출처 : https://programmers.co.kr/learn/courses/30/lessons/12928
-
-
-
 ## 약수의 합
 
 
@@ -2067,6 +2065,97 @@ class Solution {
 
 
 가장 큰 약수는 num을 2로 나누었을 때 나머지가 0인 경우이므로, for문을 1부터 num/2 까지 반복하면서  **num % i**가 0인 경우에 answer 변수에 더해주었습니다.
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12928
+
+
+
+
+
+
+
+### :lock: ​ Q. 시저암호
+
+## 시저암호
+
+
+
+###### 문제 설명
+
+어떤 문장의 각 알파벳을 일정한 거리만큼 밀어서 다른 알파벳으로 바꾸는 암호화 방식을 시저 암호라고 합니다. 예를 들어 AB는 1만큼 밀면 BC가 되고, 3만큼 밀면 DE가 됩니다. z는 1만큼 밀면 a가 됩니다. 문자열 s와 거리 n을 입력받아 s를 n만큼 민 암호문을 만드는 함수, solution을 완성해 보세요.
+
+
+
+##### 제한 조건
+
+- 공백은 아무리 밀어도 공백입니다.
+- s는 알파벳 소문자, 대문자, 공백으로만 이루어져 있습니다.
+- s의 길이는 8000이하입니다.
+- n은 1 이상, 25이하인 자연수입니다.
+
+
+
+##### 입출력 예
+
+
+
+| s     | n    | result |
+| ----- | ---- | ------ |
+| AB    | 1    | BC     |
+| z     | 1    | a      |
+| a B z | 4    | e F d  |
+
+
+
+
+
+```java
+class Solution {
+  public String solution(String s, int n) {
+      	StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < s.length(); i++) {
+			char ch = s.charAt(i);
+
+			if (ch >= 'a' && ch <= 'z') {
+				ch = (char) (ch + n);
+				if (ch > 'z')
+					ch -= 26;
+			} else if (ch >= 'A' && ch <= 'Z') {
+				ch = (char) (ch + n);
+				if (ch > 'Z')
+					ch -= 26;
+			}
+
+			sb.append(ch);
+		}
+
+		return sb.toString();
+  }
+}
+```
+
+
+
+
+
+StringBuilder와 문자의 덧셈을 이용하여 풀이하였습니다.
+
+
+
+먼저 각 문자가 소문자인 경우 **if (ch >= 'a' && ch <= 'z')** 와 대문자인 경우 **else if (ch >= 'A' && ch <= 'Z')** 로 나누었습니다.
+
+
+
+각각의 경우에 모두 ch에 n을 더해주었고 'z' 혹은 'Z' 보다 커지는 경우에는 -26 연산을 이용하였습니다.
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12926
+
+
 
 
 

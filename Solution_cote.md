@@ -292,5 +292,384 @@ public class Solution4 {
 
 
 
+# :cloud: 토스 코테
 
+```java
+package toss;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	static StringTokenizer st;
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String input = br.readLine();
+
+		boolean flag = true;
+		for (int i = 0; i < input.length() - 1; i++) {
+			if (input.charAt(i) == '1') {
+				if (input.charAt(i + 1) == '1') {
+					flag = false;
+					break;
+				}
+			}
+		}
+
+		if (input.charAt(input.length() - 1) == '1')
+			flag = false;
+		System.out.println(flag);
+	}
+}
+
+```
+
+
+<hr/>
+
+
+
+```java
+package toss;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main2 {
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+		boolean[] duplicateCheckArray = new boolean[46];
+		boolean flag = true;
+		int numCount = 0;
+		int maxValue = 0;
+
+		while (st.hasMoreTokens()) {
+			int num = Integer.parseInt(st.nextToken());
+			numCount++;
+
+			if (num > 45 || num < maxValue) {
+				flag = false;
+				break;
+			}
+
+			if (duplicateCheckArray[num]) {
+				flag = false;
+				break;
+			} else {
+				duplicateCheckArray[num] = true;
+			}
+			maxValue = num;
+		}
+
+		if (numCount != 6)
+			flag = false;
+
+		System.out.println(flag);
+	}
+}
+```
+
+
+
+<hr/>
+
+
+
+```java
+package toss;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Main3 {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		StringBuilder sb = new StringBuilder();
+
+		Map<Integer, Integer> checkHashMap = new HashMap<>();
+		int returnValue = 0;
+
+		while (st.hasMoreTokens()) {
+			int inputNum = Integer.parseInt(st.nextToken());
+
+			if (checkHashMap.containsKey(inputNum)) {
+				sb.append(checkHashMap.get(inputNum));
+				sb.append(" ");
+			} else {
+				returnValue = compute(inputNum);
+				checkHashMap.put(inputNum, returnValue);
+				sb.append(returnValue);
+				sb.append(" ");
+			}
+		}
+
+		bw.write(sb.toString().trim());
+		bw.flush();
+		bw.close();
+	}
+
+	static int compute(int n) {
+		return n * 2;
+	}
+}
+```
+
+
+
+<hr/>
+
+
+
+```java
+package toss;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
+
+public class Main4 {
+	static StringBuilder sb;
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+		Map<String, Integer> payHashMap = new HashMap<>();
+
+		String payment = "";
+		int index = 0;
+
+		while (st.hasMoreTokens()) {
+			payment = st.nextToken();
+			index++;
+
+			// TreeMap에 추가
+			payHashMap.put(payment, index);
+			sb = new StringBuilder();
+
+			if (payHashMap.containsKey(payment)) {
+				payHashMap.replace(payment, index);
+			}
+
+			List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(payHashMap.entrySet());
+
+			Collections.sort(list_entries, new Comparator<Entry<String, Integer>>() {
+				@Override
+				public int compare(Entry<String, Integer> payment1, Entry<String, Integer> payment2) {
+					return payment2.getValue().compareTo(payment1.getValue());
+				}
+			});
+
+			while (list_entries.size() > 5) {
+				list_entries.remove(list_entries.size() - 1);
+			}
+
+			for (Entry<String, Integer> entry : list_entries) {
+				sb.append(entry.getKey() + " ");
+			}
+
+			bw.write(sb.toString().trim());
+			if (st.hasMoreTokens())
+				bw.write("\n");
+		}
+
+		bw.flush();
+		bw.close();
+	}
+}
+```
+
+
+
+<hr/>
+
+
+
+```java
+package toss;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main5 {
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		StringTokenizer st2 = new StringTokenizer(br.readLine(), " ");
+		StringBuilder sb = new StringBuilder();
+
+		long kim, lee, money, debt = 0L;
+
+		while (st.hasMoreTokens()) {
+			kim = Integer.parseInt(st.nextToken());
+			lee = Integer.parseInt(st2.nextToken());
+
+			if (kim > lee) {
+				money = kim - lee;
+
+				if (money > debt) {
+					money -= debt;
+					debt = 0;
+					sb.append(money + " ");
+				} else {
+					debt -= money;
+					sb.append("0 ");
+				}
+			} else {
+				debt += lee - kim;
+				sb.append("0 ");
+			}
+		}
+
+		bw.write(sb.toString().trim());
+		bw.flush();
+		bw.close();
+	}
+}
+```
+
+
+
+<hr/>
+
+
+
+```java
+package toss;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main6 {
+	static String input = "1 1 0 0;1 0 0 0;0 0 0 1;0 0 1 1";
+	static int row, col, answer, next_i, next_j;
+	static int[][] arr;
+	static String inputStr = "";
+	static boolean[][] checked;
+	static int[] di = { 0, 1, 0, -1 };
+	static int[] dj = { 1, 0, -1, 0 };
+
+	public static void main(String[] args) throws Exception {
+		row = 1;
+		col = 0;
+
+		// 가로 세로 길이 구하기
+		for (int i = 0; i < input.length(); i++) {
+			if (input.charAt(i) == ';') {
+				row++;
+			} else if (input.charAt(i) == '0' || input.charAt(i) == '1') {
+				col++;
+			}
+		}
+
+		col /= row;
+		arr = new int[row][col];
+		StringTokenizer st = new StringTokenizer(input, ";");
+		int rowIndex = 0;
+
+		// arr에 input Data 모양 배열 만들기
+		while (st.hasMoreTokens()) {
+			StringTokenizer inputStr = new StringTokenizer(st.nextToken(), " ");
+			for (int i = 0; i < col; i++) {
+				arr[rowIndex][i] = Integer.parseInt(inputStr.nextToken());
+			}
+			rowIndex++;
+		}
+
+		// bfs로 방문하며 주변 둘레 구하기
+		checked = new boolean[row][col];
+		answer = 0;
+
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				if (arr[i][j] == 0 && !checked[i][j]) {
+					bfs(new Pos(i, j));
+				}
+			}
+		}
+
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				System.out.print(arr[i][j] + " ");
+			}
+			System.out.println();
+		}
+
+		System.out.println("answer : " + answer);
+
+	}
+
+	// 연결된 지점들을 방문하며 둘레 길이 찾기
+	// bfs를 시작할 때마다 방문 여부를 체크하는 배열 새로 만들기 (중복되는 위치의 둘레도 체크해야 함)
+	static void bfs(Pos pos) {
+		Queue<Pos> q = new LinkedList<>();
+		q.offer(pos);
+		checked[pos.i][pos.j] = true;
+
+		while (!q.isEmpty()) {
+			Pos temp = q.poll();
+
+			for (int k = 0; k < 4; k++) {
+				next_i = temp.i + di[k];
+				next_j = temp.j + dj[k];
+
+				if (next_i < 0 || next_i >= row || next_j < 0 || next_j >= col)
+					continue;
+
+				if (arr[next_i][next_j] == 1) {
+					answer++;
+				} else if (arr[next_i][next_j] == 0 && !checked[next_i][next_j]) {
+					checked[next_i][next_j] = true;
+					q.offer(new Pos(next_i, next_j));
+				}
+			}
+		} // end while
+	}
+
+	static class Pos {
+		int i;
+		int j;
+
+		public Pos(int i, int j) {
+			super();
+			this.i = i;
+			this.j = j;
+		}
+
+	}
+}
+```
+
+
+
+<hr/>
 
