@@ -2159,3 +2159,123 @@ StringBuilder와 문자의 덧셈을 이용하여 풀이하였습니다.
 
 
 
+
+
+### :lock: ​ Q. 문자열을 정수로 바꾸기
+
+## 문자열을 정수로 바꾸기
+
+
+
+###### 문제 설명
+
+문자열 s를 숫자로 변환한 결과를 반환하는 함수, solution을 완성하세요.
+
+
+
+##### 제한 조건
+
+- s의 길이는 1 이상 5이하입니다.
+- s의 맨앞에는 부호(+, -)가 올 수 있습니다.
+- s는 부호와 숫자로만 이루어져있습니다.
+- s는 0으로 시작하지 않습니다.
+
+
+
+##### 입출력 예
+
+예를들어 str이 1234이면 1234를 반환하고, -1234이면 -1234를 반환하면 됩니다.
+str은 부호(+,-)와 숫자로만 구성되어 있고, 잘못된 값이 입력되는 경우는 없습니다.
+
+
+
+```java
+class Solution {
+  public int solution(String s) {
+      return Integer.parseInt(s);
+  }
+}
+```
+
+
+
+JAVA 언어를 사용하는 사람들에게는 너무 쉬운 문제입니다.
+
+
+
+Integer.parseInt() 함수를 사용하였습니다.
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12925
+
+
+
+
+
+
+
+### :lock: ​ Q. 수박수박수박수박수박수?
+
+## 수박수박수박수박수박수?
+
+
+
+###### 문제 설명
+
+길이가 n이고, 수박수박수박수....와 같은 패턴을 유지하는 문자열을 리턴하는 함수, solution을 완성하세요. 예를들어 n이 4이면 수박수박을 리턴하고 3이라면 수박수를 리턴하면 됩니다.
+
+
+
+##### 제한 조건
+
+- n은 길이 10,000이하인 자연수입니다.
+
+
+
+##### 입출력 예
+
+| n    | return   |
+| ---- | -------- |
+| 3    | 수박수   |
+| 4    | 수박수박 |
+
+
+
+```java
+class Solution {
+  public String solution(int n) {
+      	int m = n;
+		StringBuilder sb = new StringBuilder();
+		while (n > 0) {
+			if ((m - n) % 2 == 0)
+				sb.append("수");
+			else
+				sb.append("박");
+			n--;
+		}
+		return sb.toString();
+  }
+}
+```
+
+
+
+StringBuilder를 사용하여 풀이하였습니다.
+
+
+
+변수 m을 만들어 시작할 때의 n 값을 저장한 뒤
+
+
+
+**(m-n) % 2 == 0**  연산으로 n을 1씩 감소하며 문자를 덧붙여주었습니다.
+
+
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12922
+
+
+
