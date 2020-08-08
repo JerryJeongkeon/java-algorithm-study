@@ -2279,3 +2279,192 @@ StringBuilder를 사용하여 풀이하였습니다.
 
 
 
+
+
+
+
+### :lock: ​ Q. 소수 찾기
+
+## 소수 찾기
+
+
+
+###### 문제 설명
+
+1부터 입력받은 숫자 n 사이에 있는 소수의 개수를 반환하는 함수, solution을 만들어 보세요.
+
+소수는 1과 자기 자신으로만 나누어지는 수를 의미합니다.
+(1은 소수가 아닙니다.)
+
+
+
+##### 제한 조건
+
+- n은 2이상 1000000이하의 자연수입니다.
+
+
+
+##### 입출력 예
+
+| n    | result |
+| ---- | ------ |
+| 10   | 4      |
+| 5    | 3      |
+
+
+
+##### 입출력 예 설명
+
+입출력 예 #1
+1부터 10 사이의 소수는 [2,3,5,7] 4개가 존재하므로 4를 반환
+
+
+
+입출력 예 #2
+1부터 5 사이의 소수는 [2,3,5] 3개가 존재하므로 3를 반환
+
+
+
+```java
+class Solution {
+  public int solution(int n) {
+		int answer = 0;
+		boolean[] checked = new boolean[n + 1];
+
+		for (int i = 2; i <= n; i++) {
+			if (!checked[i])
+				answer++;
+			for (int j = i; j <= n; j += i) {
+				if (!checked[j])
+					checked[j] = true;
+			}
+		}      
+      return answer;
+  }
+}
+```
+
+
+
+이전에 공부했었던 에라토스테네스의 체를 활용하여 풀이하였습니다.
+
+
+
+
+
+**에라토스테네스의 체에 대해 알고 있다면 풀이에 도움이 될 것 같아 관련 자료를 찾아보았습니다.**
+
+
+
+
+
+![img](https://blog.kakaocdn.net/dn/LucuQ/btqARxJsGyA/NgJbnKpoDwLeXhNQefa9ZK/img.gif)
+
+**출처 : 위키백과** 
+
+
+
+[
+에라토스테네스의 체 - 위키백과, 우리 모두의 백과사전위키백과, 우리 모두의 백과사전. 둘러보기로 가기 검색하러 가기 수학에서 에라토스테네스의 체는 소수(소쑤)를 찾는 방법이다. 고대 그리스 수학자 에라토스테네스가 발견하였다. 알고리즘[편집\] 2부터 소수를 구하고자 하는 구간의 모든 수를 나열한다. 그림에서 회색 사각형으로 두른 수들이 여기에 해당한다. 2는 소수이므로 오른쪽에 2를 쓴다. (빨간색) 자기 자신을 제외한 2의 배수를 모두 지운다. 남아있는 수 가운데 3은 소수이므로 오른쪽에 3을 쓴다. (초ko.wikipedia.org](https://ko.wikipedia.org/wiki/에라토스테네스의_체)
+
+
+
+
+
+
+
+**먼저 소수를 찾기 위해 boolean 배열 checked를 만들었습니다.**
+
+
+
+**그리고 나서, 2부터 n까지 i의 만큼씩 더해 반복하며 소수에 해당하지 않는 수는**
+
+
+
+**checked 배열에 true 처리하여 표시해주었습니다. ( 에라토스테네스의 체와 유사하게 )**
+
+
+
+**모두 표시해준 이후 checked 배열이 false인 숫자들만 카운트 해주었습니다.**
+
+
+
+
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12921
+
+
+
+
+
+
+
+### :lock: ​ Q. 서울에서 김서방 찾기
+
+## 서울에서 김서방 찾기
+
+
+
+###### 문제 설명
+
+String형 배열 seoul의 element중 Kim의 위치 x를 찾아, 김서방은 x에 있다는 String을 반환하는 함수, solution을 완성하세요. seoul에 Kim은 오직 한 번만 나타나며 잘못된 값이 입력되는 경우는 없습니다.
+
+
+
+##### 제한 사항
+
+- seoul은 길이 1 이상, 1000 이하인 배열입니다.
+- seoul의 원소는 길이 1 이상, 20 이하인 문자열입니다.
+- Kim은 반드시 seoul 안에 포함되어 있습니다.
+
+
+
+##### 입출력 예
+
+| seoul       | return            |
+| ----------- | ----------------- |
+| [Jane, Kim] | 김서방은 1에 있다 |
+
+
+
+
+
+```java
+class Solution {
+  public String solution(String[] seoul) {
+      	String tmp = "Kim";
+		for (int i = 0; i < seoul.length; i++) {
+			if(seoul[i].equals(tmp)) {
+				tmp = "김서방은 " + i + "에 있다";
+                break;
+			}
+		}
+      return tmp;
+  }
+}
+```
+
+
+
+String temp에 "Kim"을 저장해두고 for문을 이용하여 정답을 찾았습니다.
+
+
+
+input으로 주어지는 seoul[i] 번째가 tmp와 같다면, 
+
+
+
+break한 뒤에 return 해주었습니다.
+
+
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12919
+
+
+
+
+
