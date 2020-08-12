@@ -2468,3 +2468,68 @@ break한 뒤에 return 해주었습니다.
 
 
 
+
+
+### :lock: ​ Q. 문자열 다루기 기본
+
+## 문자열 다루기 기본
+
+
+
+###### 문제 설명
+
+문자열 s의 길이가 4 혹은 6이고, 숫자로만 구성돼있는지 확인해주는 함수, solution을 완성하세요. 예를 들어 s가 a234이면 False를 리턴하고 1234라면 True를 리턴하면 됩니다.
+
+
+
+##### 제한 사항
+
+- `s`는 길이 1 이상, 길이 8 이하인 문자열입니다.
+
+
+
+##### 입출력 예
+
+| s    | return |
+| ---- | ------ |
+| a234 | false  |
+| 1234 | true   |
+
+
+
+
+
+```java
+class Solution {
+    public boolean solution(String s) {
+        if(s.length() == 4 || s.length() == 6) {
+			for (int i = 0; i < s.length(); i++) {
+				char ch = s.charAt(i);
+				if(ch < '0' || ch > '9')
+					return false;
+			}
+			return true;
+		} else
+			return false;
+    }
+}
+```
+
+
+
+아주 간단한 문제였습니다.
+
+
+
+입력으로 주어지는 문자열 s의 길이를 먼저 확인한 뒤,
+
+
+
+주어지는 문자들이 숫자로 구성되어 있는지 확인하였습니다.
+
+
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12918
+
