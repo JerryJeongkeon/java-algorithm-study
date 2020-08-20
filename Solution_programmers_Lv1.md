@@ -2533,3 +2533,82 @@ class Solution {
 
 출처 : https://programmers.co.kr/learn/courses/30/lessons/12918
 
+
+
+
+
+
+
+### :lock: ​ Q. 문자열 내림차순으로 배치하기
+
+## 문자열 내림차순으로 배치하기
+
+
+
+###### 문제 설명
+
+문자열 s에 나타나는 문자를 큰것부터 작은 순으로 정렬해 새로운 문자열을 리턴하는 함수, solution을 완성해주세요.
+s는 영문 대소문자로만 구성되어 있으며, 대문자는 소문자보다 작은 것으로 간주합니다.
+
+
+
+##### 제한 사항
+
+- str은 길이 1 이상인 문자열입니다.
+
+
+
+##### 입출력 예
+
+| s       | return  |
+| ------- | ------- |
+| Zbcdefg | gfedcbZ |
+
+
+
+
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Solution {
+  public String solution(String s) {
+		ArrayList<Character> list = new ArrayList<>();
+      
+		for (int i = 0; i < s.length(); i++) {
+			list.add(s.charAt(i));
+		}
+
+		Collections.sort(list);
+      
+		StringBuilder sb = new StringBuilder();
+      
+		while (list.size() > 0) {
+			sb.append(list.remove(list.size() - 1));
+		}
+      
+        return sb.toString();
+  }
+}
+```
+
+
+
+문자를 정렬한 뒤 출력해주는 문제입니다.
+
+
+
+먼저, ArrayList를 활용하여 입력으로 주어진 s 문자열을 list에 담아주었습니다.
+
+
+
+이후 Collections의 sort 메소드를 사용하여 정렬해주었고
+
+
+
+마지막으로 StringBuilder를 사용하여 정렬된 문자열을 출력해주었습니다.
+
+
+
+출처 : https://programmers.co.kr/learn/courses/30/lessons/12917
