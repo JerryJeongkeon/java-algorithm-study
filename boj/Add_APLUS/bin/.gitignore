@@ -1,3 +1,17 @@
+/.metadata/
+/.recommenders/
+/.project
+/Kakao/
+/Line/
+/Solution_A.md
+/Solution_boj.md
+/Solution_cote.md
+/Solution_programmers_Lv1.md
+/Solution_programmers_Lv2.md
+/Solution_programmers_Lv3.md
+/algorithm.md
+/boj/
+/programmers/
 /Main_1021_.class
 /Main_14502_$Pos.class
 /Main_14502_.class
@@ -15,5 +29,8 @@
 /Main_15666_N怨퍶12.class
 /Main_18808_.class
 /Main_18809_Gaaaaaarden.class
-/boj/
+/Solution1.class
+/Solution3$Time.class
+/Solution3.class
+/Solution4.class
 /practice/
