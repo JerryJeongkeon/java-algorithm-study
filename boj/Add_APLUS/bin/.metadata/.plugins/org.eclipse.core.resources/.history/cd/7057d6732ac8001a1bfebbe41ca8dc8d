@@ -1,0 +1,66 @@
+package programmers_Lv2;
+
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
+public class 점프와순간이동 {
+	static int n = 5;
+	static int min, target, doubleIdx, nextIdx, tempDepth;
+	static int max = 100001;
+	static PriorityQueue<Pos> pq;
+	static boolean[] visited = new boolean[100001];
+
+	public static void main(String[] args) {
+		min = Integer.MAX_VALUE;
+		target = n;
+
+		bfs(new Pos(1, 1));
+
+		System.out.println("ANSWER : " + min);
+	}
+
+	static void bfs(Pos start) {
+		pq = new PriorityQueue<>();
+		pq.offer(new Pos(1, 1));
+		dp[1] = 1;
+		visited[1] = true;
+
+		while (!pq.isEmpty()) {
+			Pos temp = pq.poll();
+
+			doubleIdx = temp.now * 2;
+			nextIdx = temp.now + 1;
+			tempDepth = temp.depth;
+
+			if (nextIdx < 100001) {
+				if (dp[nextIdx] > tempDepth + 1) {
+					pq.offer(new Pos(nextIdx, tempDepth + 1));
+					dp[nextIdx] = tempDepth + 1;
+				}
+			}
+
+			if (doubleIdx < 100001) {
+				if (dp[doubleIdx] > tempDepth) {
+					pq.offer(new Pos(doubleIdx, tempDepth));
+					dp[doubleIdx] = tempDepth;
+				}
+			}
+		}
+	}
+
+	static class Pos implements Comparable<Pos> {
+		int now;
+		int depth;
+
+		public Pos(int n, int d) {
+			this.now = n;
+			this.depth = d;
+		}
+
+		@Override
+		public int compareTo(Pos o) {
+			return this.depth - o.depth;
+		}
+	}
+
+}

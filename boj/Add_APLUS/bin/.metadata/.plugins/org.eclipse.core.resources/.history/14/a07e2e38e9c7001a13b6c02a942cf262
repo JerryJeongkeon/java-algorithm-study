@@ -1,0 +1,43 @@
+package programmers_Lv2;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class 영어끝말잇기 {
+	static int n = 3;
+	static String[] words = { "tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank" };
+
+	public static void main(String[] args) {
+		Map<String, Integer> map = new HashMap<>();
+		int[] result = new int[2];
+		boolean flag = true;
+
+		map.put(words[0], 1);
+		char lastChar = words[0].charAt(words[0].length() - 1);
+		char firstChar = '.';
+		for (int i = 1; i < words.length; i++) {
+			if (!flag) {
+				result[0] = i % n + 1;
+				result[1] = i / n + 1;
+				break;
+			}
+
+			firstChar = words[i].charAt(0);
+			System.out
+					.println(" i : " + i + ", words : " + words[i] + ", last : " + lastChar + ", first : " + firstChar);
+			if (lastChar != firstChar || map.containsKey(words[i])) {
+				flag = false;
+				continue;
+			}
+			lastChar = words[i].charAt(words[i].length() - 1);
+			map.put(words[i], i + 1);
+		}
+
+		if (result[0] == 0) {
+			result[0] = n;
+			result[1] = words.length / n;
+		}
+		System.out.println(Arrays.toString(result));
+	}
+}

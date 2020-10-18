@@ -58,7 +58,7 @@ public class Main_14502_연구소 {
 			}
 		}
 		
-		// virus 퍼뜨리기
+		// virus �띁�쑉由ш린
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if(copy[i][j] == 2) {

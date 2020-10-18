@@ -1,0 +1,36 @@
+package programmers_Lv2;
+
+import java.util.Arrays;
+
+public class 점프와순간이동 {
+	static int n = 5;
+	static int min, target, doubleIdx, nextIdx;
+	static int[] dp = new int[100001];
+
+	public static void main(String[] args) {
+		min = Integer.MAX_VALUE;
+		target = n;
+
+		Arrays.fill(dp, Integer.MAX_VALUE);
+		dp[1] = 1;
+		bfs(1, 1);
+
+		min = dp[target];
+		System.out.println("ANSWER : " + min);
+	}
+
+	static void bfs(int now, int depth) {
+		if (now == target) {
+			if (depth < dp[now]) {
+				dp[now] = depth;
+				return;
+			}
+		}
+
+		if (depth > dp[now])
+			return;
+		
+		
+
+	}
+}
